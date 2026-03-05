@@ -22,6 +22,10 @@ subtitle: "GMON GNFA GCTI"
 <QRCode url="https://www.linkedin.com/in/srameko/" :size="120">LinkedIn</QRCode>
 
 ---
+src: ./slides/00-agenda.md
+---
+
+---
 src: ./slides/01-introduction.md
 ---
 

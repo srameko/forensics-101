@@ -8,6 +8,18 @@ author: Ondrej Sramek
 ## Workshop Preparation
 
 ---
+layout: bio
+image: /public/bio.png
+name: "Ondřej Šrámek"
+subtitle: "GMON GNFA GCTI"
+---
+
+- Cyber Manager @ Honeywell
+- AZ @ 92. VeInKyS
+- Lektor Czechitas
+
+::qr::
+<QRCode url="https://www.linkedin.com/in/srameko/" :size="120">LinkedIn</QRCode>
 
 ---
 src: ./slides/01-introduction.md

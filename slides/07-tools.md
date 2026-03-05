@@ -1,252 +1,254 @@
 ---
 layout: section
-subtitle: Where investigators find evidence
+subtitle: Tools used in forensic investigations
 ---
 
-# Forensic Artifacts
-
----
-
-## What Are Forensic Artifacts?
-
-Forensic artifacts are traces of activity left by users, applications, or the operating system.
-
-These artifacts help investigators answer questions such as:
-
-- What happened on the system?
-- When did it happen?
-- Which user was involved?
-
-Artifacts often contain valuable evidence about system activity.
+# Forensic Tools
 
 ---
 
-## Sources of Artifacts
+## Why Tools Matter
 
-Artifacts can originate from many parts of a system:
+Digital forensics relies heavily on specialized tools.
 
-- filesystems
-- operating system logs
-- application data
-- browser history
-- system configuration
+These tools help investigators:
 
-Investigators correlate multiple artifact sources to reconstruct events.
+- acquire disk images
+- analyze filesystems
+- recover deleted files
+- extract forensic artifacts
+- build timelines
 
----
-
-## Common Artifact Categories
-
-Artifacts can generally be grouped into several categories:
-
-- user activity
-- program execution
-- file access
-- system events
-- network activity
-
-Each category reveals a different part of system behavior.
+Understanding how these tools work is essential for investigations.
 
 ---
 
-## Windows Artifacts
+## Tool Categories
 
-Common forensic artifacts on Windows systems include:
+Forensic tools generally fall into several categories:
 
-- Prefetch files
-- Event Logs
-- Registry
-- Jump Lists
-- Recycle Bin
-- Browser artifacts
+- acquisition tools
+- filesystem analysis tools
+- recovery tools
+- artifact extraction tools
+- timeline analysis tools
 
-These artifacts help reconstruct user and system activity.
+Each category supports a different phase of the investigation.
 
 ---
 
-## Windows Prefetch
+## Disk Imaging Tools
 
-Prefetch files track program execution.
+Common disk acquisition tools include:
 
-Location:
+- `dd`
+- `dc3dd`
+- FTK Imager
+- Guymager
+
+These tools create **forensic images of storage media**.
+
+---
+
+## Example: dd
+
+The `dd` command performs a raw sector-by-sector copy.
+
+Example:
 
 ```
-C:\Windows\Prefetch\
+dd if=/dev/sda of=disk.img bs=4M status=progress
 ```
 
-Prefetch files contain:
-
-- program name
-- execution timestamps
-- number of executions
-- referenced files
-
-This makes them extremely valuable during investigations.
+This command copies an entire disk into an image file.
 
 ---
 
-## Windows Event Logs
+## Example: dc3dd
 
-Windows logs system and security events.
+`dc3dd` is an enhanced forensic version of `dd`.
 
-Location:
+Example:
 
 ```
-C:\Windows\System32\winevt\Logs\
+dc3dd if=/dev/sda of=disk.img hash=sha256 log=acquisition.log
 ```
 
-Event logs record many system activities.
+Additional features include:
 
-Examples include:
-
-- user logins
-- service activity
-- process creation
-- system changes
+- hash verification
+- improved error handling
+- logging
 
 ---
 
-## Important Windows Event IDs
+## The Sleuth Kit
 
-Some event IDs frequently used in investigations include:
+The Sleuth Kit (TSK) is a widely used forensic toolkit.
 
-- **4624** – successful login
-- **4625** – failed login
-- **4688** – process creation
-- **4720** – user account created
-- **7045** – service installed
+It allows investigators to:
 
-These events help track system activity.
+- analyze filesystems
+- recover deleted files
+- inspect filesystem metadata
 
----
-
-## Windows Registry
-
-The Windows Registry stores configuration and activity information.
-
-Example registry hive locations:
-
-```
-C:\Windows\System32\Config\
-```
-
-Important hives include:
-
-- SAM
-- SYSTEM
-- SOFTWARE
-- SECURITY
-- NTUSER.DAT
-
-Registry analysis can reveal user activity and system configuration.
+TSK works directly with disk images.
 
 ---
 
-## Linux Artifacts
+## Important Sleuth Kit Tools
 
-Linux systems store important artifacts in system logs and user files.
+Common Sleuth Kit commands include:
 
-Examples include:
+- `mmls`
+- `fsstat`
+- `fls`
+- `icat`
+- `istat`
 
-- system logs
-- shell history
-- authentication logs
-- scheduled tasks
-
-These artifacts provide insight into system activity.
-
----
-
-## Linux Log Files
-
-Important log locations:
-
-```
-/var/log/syslog
-/var/log/auth.log
-/var/log/messages
-```
-
-These logs record:
-
-- system events
-- authentication attempts
-- service activity
+Each command provides different forensic insights.
 
 ---
 
-## Linux User Artifacts
+## Example: mmls
 
-User activity often appears in:
+`mmls` displays partition layouts.
+
+Example:
 
 ```
-~/.bash_history
-~/.ssh/
-~/.config/
+mmls disk.img
 ```
 
-These files can reveal:
-
-- executed commands
-- SSH connections
-- application settings
+This helps identify partitions inside a disk image.
 
 ---
 
-## macOS Artifacts
+## Example: fls
 
-macOS systems store many artifacts in system databases and logs.
+`fls` lists files and directories from a filesystem.
 
-Examples include:
+Example:
 
-- unified logs
-- recent items
-- application logs
-- user activity databases
+```
+fls -r disk.img
+```
 
-These artifacts help reconstruct system usage.
+Options:
+
+- `-r` → recursive listing
+- `-d` → show deleted files
 
 ---
 
-## macOS Unified Logs
+## Example: icat
 
-macOS uses a centralized logging system.
+`icat` extracts file content from a disk image.
 
-Investigators can query logs using:
+Example:
 
 ```
-log show
+icat disk.img 128 > recovered_file.txt
 ```
 
-These logs may contain:
-
-- system events
-- application activity
-- security events
+This command extracts the file associated with inode 128.
 
 ---
 
-## Correlating Artifacts
+## File Carving Tools
 
-A single artifact rarely tells the whole story.
+File carving tools recover files without filesystem metadata.
 
-Investigators correlate multiple sources:
+Common tools include:
 
-- filesystem metadata
-- system logs
-- registry entries
-- application artifacts
+- scalpel
+- foremost
+- photorec
+- bulk extractor
 
-This process helps reconstruct a timeline of events.
+These tools scan raw disk data for file signatures.
+
+---
+
+## Example: Scalpel
+
+Example command:
+
+```
+scalpel disk.img -o output_directory
+```
+
+Scalpel scans the disk image and extracts recognized file types.
+
+---
+
+## Timeline Tools
+
+Timeline tools reconstruct system activity chronologically.
+
+Common tools include:
+
+- log2timeline
+- plaso
+- Timesketch
+
+These tools combine multiple artifact sources.
+
+---
+
+## Example: log2timeline
+
+Example command:
+
+```
+log2timeline.py timeline.plaso disk.img
+```
+
+This extracts artifacts from the disk image into a timeline database.
+
+---
+
+## Creating a Timeline
+
+Example workflow:
+
+1. Extract artifacts using log2timeline
+2. Convert timeline data
+3. Analyze activity chronologically
+
+Example command:
+
+```
+psort.py -o l2tcsv timeline.plaso > timeline.csv
+```
+
+This produces a timeline that investigators can analyze.
+
+---
+
+## Typical DFIR Tool Workflow
+
+A simplified investigation workflow might look like:
+
+1. Acquire disk image (`dd`)
+2. Identify partitions (`mmls`)
+3. Analyze filesystem (`fsstat`)
+4. List files (`fls`)
+5. Recover files (`icat`)
+6. Extract artifacts (`log2timeline`)
+7. Build timeline
+
+Each step reveals additional evidence.
 
 ---
 
 ## Key Takeaway
 
-Forensic artifacts exist across many system components.
+Forensic tools help investigators transform raw disk data into useful evidence.
 
-Effective investigations require:
+By combining multiple tools, investigators can:
 
-- identifying relevant artifacts
-- collecting evidence from multiple sources
-- correlating data across systems
+- analyze filesystems
+- recover deleted files
+- extract artifacts
+- reconstruct system activity

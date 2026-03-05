@@ -11,34 +11,26 @@ subtitle: Key concepts and investigation workflow
 
 During this introduction to digital forensics we explored:
 
-```
-filesystem structures
-forensic artifacts
-file recovery
-timeline analysis
-forensic tools
-```
+- filesystem structures
+- forensic artifacts
+- file recovery
+- timeline analysis
+- forensic tools
 
 These concepts form the foundation of forensic investigations.
 
 ---
 
-# Filesystems
+## Filesystem Concepts
 
----
+We examined how filesystems store and manage data.
 
-## Filesystem Fundamentals
+Key concepts include:
 
-We examined how filesystems store data.
-
-Key structures:
-
-```
-Boot sector
-File allocation structures
-Directory entries
-Data clusters
-```
+- filesystem layout
+- metadata structures
+- cluster allocation
+- directory entries
 
 Understanding filesystem internals is essential for forensic analysis.
 
@@ -48,16 +40,12 @@ Understanding filesystem internals is essential for forensic analysis.
 
 Important FAT concepts:
 
-```
-cluster chains
-FAT allocation table
-directory entries
-deleted file markers
-```
+- cluster chains
+- FAT allocation table
+- directory entries
+- deleted file markers
 
-Deletion in FAT only modifies metadata.
-
-Data often remains recoverable.
+Deletion in FAT modifies metadata but often leaves data recoverable.
 
 ---
 
@@ -65,227 +53,107 @@ Data often remains recoverable.
 
 Important NTFS structures:
 
-```
-Master File Table (MFT)
-attributes
-data runs
-alternate data streams
-```
+- Master File Table (MFT)
+- file attributes
+- timestamps
+- alternate data streams
 
-NTFS stores extensive metadata useful for investigations.
+NTFS stores extensive metadata useful for forensic investigations.
 
 ---
 
-# File Recovery
-
----
-
-## Deleted File Recovery
+## File Recovery
 
 When files are deleted:
 
-```
-metadata changes
-clusters become reusable
-data remains on disk
-```
+1. The filesystem marks metadata as deleted
+2. Disk space becomes available for reuse
+3. File data may still remain on disk
 
-Forensic tools reconstruct files from remaining data structures.
+Investigators can often recover deleted files from remaining disk data.
 
 ---
 
-## File Carving
+## Forensic Artifacts
 
-File carving allows recovery when metadata is lost.
+Artifacts provide evidence of system and user activity.
 
-Tools detect file types using signatures.
+Common artifact sources include:
 
-Example signatures:
+- filesystem metadata
+- event logs
+- registry data
+- application artifacts
 
-```
-JPEG
-PDF
-ZIP
-```
-
-This technique analyzes raw disk data.
+These artifacts help investigators reconstruct events.
 
 ---
 
-# Forensic Artifacts
-
----
-
-## System Artifacts
-
-Investigators rely on many artifact sources.
-
-Examples:
-
-```
-filesystem metadata
-event logs
-registry
-browser history
-application artifacts
-```
-
-Artifacts reveal user and system activity.
-
----
-
-## Artifact Locations
-
-We examined common artifact locations across operating systems.
-
-Windows
-
-```
-Prefetch
-Jump Lists
-Event logs
-Registry
-Recycle Bin
-```
-
-Linux
-
-```
-/var/log
-.bash_history
-cron jobs
-```
-
-macOS
-
-```
-unified logs
-recent items
-system logs
-```
-
----
-
-# Forensic Tools
-
----
-
-## Core Investigation Tools
+## Forensic Tools
 
 Important forensic tools include:
 
-```
-dd
-The Sleuth Kit
-scalpel
-log2timeline
-```
+- `dd`
+- The Sleuth Kit
+- `scalpel`
+- `log2timeline`
 
-Each tool focuses on different aspects of forensic analysis.
+Each tool helps extract different types of forensic evidence.
 
 ---
 
-## Typical DFIR Workflow
-
-A simplified forensic workflow:
-
-```
-Acquire disk image
-Identify partitions
-Analyze filesystem
-Locate artifacts
-Recover files
-Build timeline
-```
-
-This structured process helps investigators reconstruct events.
-
----
-
-# Timeline Analysis
-
----
-
-## Timeline Reconstruction
+## Timeline Analysis
 
 Timeline analysis reconstructs events chronologically.
 
-Sources include:
+Typical timeline sources include:
 
-```
-filesystem timestamps
-event logs
-registry artifacts
-application data
-```
+- filesystem timestamps
+- system logs
+- registry artifacts
+- application data
 
-This provides insight into system activity.
+This helps investigators understand system activity.
 
 ---
 
-## Supertimeline
+## Anti-Forensics
 
-A supertimeline merges many artifact sources.
+Attackers may attempt to hide their actions.
 
-```
-filesystem events
-log events
-registry changes
-application activity
-```
+Common techniques include:
 
-This provides a detailed picture of system behavior.
+- timestomping
+- log deletion
+- artifact removal
 
----
-
-# Anti-Forensics
+Investigators must validate evidence using multiple artifact sources.
 
 ---
 
-## Timestomping
+## Core DFIR Workflow
 
-Attackers may manipulate timestamps to hide activity.
+A simplified forensic investigation workflow:
 
-Example techniques:
+1. Acquire disk image
+2. Identify partitions
+3. Analyze filesystem
+4. Extract artifacts
+5. Recover files
+6. Build timeline
+7. Reconstruct the incident
 
-```
-timestamp modification
-log deletion
-artifact removal
-```
-
-Investigators must validate timestamps across multiple sources.
-
----
-
-# Key Takeaways
+This structured process helps investigators understand what happened.
 
 ---
 
-## Core Principles of Digital Forensics
+## Key Takeaways
 
-Important lessons:
+Important lessons from digital forensics:
 
-```
-Never trust a single artifact
-Correlate multiple data sources
-Validate timelines
-Preserve evidence integrity
-```
+- never trust a single artifact
+- correlate multiple sources
+- verify timestamps
+- preserve evidence integrity
 
-Forensic analysis relies on careful interpretation of system artifacts.
-
----
-
-## What Comes Next
-
-In the practical workshop you will:
-
-```
-analyze a disk image
-locate artifacts
-recover deleted files
-build a forensic timeline
-```
-
-This will demonstrate how these concepts apply to real investigations.
+Careful analysis of system artifacts allows investigators to reconstruct events.

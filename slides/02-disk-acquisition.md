@@ -15,9 +15,7 @@ The goal is to preserve digital evidence while allowing analysis on a duplicate.
 
 Key principle:
 
-```
-Never analyze the original evidence
-```
+> Never analyze the original evidence.
 
 Investigators work on a copy of the data.
 
@@ -27,11 +25,9 @@ Investigators work on a copy of the data.
 
 Direct analysis of the original disk can:
 
-```
-modify timestamps
-alter filesystem metadata
-destroy evidence
-```
+- modify timestamps
+- alter filesystem metadata
+- destroy evidence
 
 Forensic imaging prevents these risks.
 
@@ -39,22 +35,16 @@ Forensic imaging prevents these risks.
 
 ## Types of Acquisition
 
-Two common acquisition methods:
-
 ### Dead acquisition
 
-```
-system powered off
-disk removed
-image created from storage media
-```
+- system powered off
+- disk removed
+- image created from storage media
 
 ### Live acquisition
 
-```
-system running
-image collected from active system
-```
+- system running
+- image collected from active system
 
 Dead acquisition is preferred whenever possible.
 
@@ -64,15 +54,15 @@ Dead acquisition is preferred whenever possible.
 
 ```
 Original Disk
-      |
-      v
+      │
+      ▼
 Forensic Image
-      |
-      v
+      │
+      ▼
 Forensic Analysis
 ```
 
-The forensic image contains an **exact copy of the disk sectors**.
+The forensic image contains an **exact sector-by-sector copy** of the disk.
 
 ---
 
@@ -80,11 +70,9 @@ The forensic image contains an **exact copy of the disk sectors**.
 
 Common forensic image formats:
 
-```
-RAW (.img)
-E01 (EnCase format)
-AFF (Advanced Forensic Format)
-```
+- RAW (`.img`)
+- E01 (EnCase format)
+- AFF (Advanced Forensic Format)
 
 RAW images are simple sector-by-sector copies.
 
@@ -96,17 +84,13 @@ Write blockers prevent modification of the original disk.
 
 Types:
 
-```
-hardware write blockers
-software write blockers
-```
+- hardware write blockers
+- software write blockers
 
 Example hardware devices:
 
-```
-Tableau write blocker
-WiebeTech write blocker
-```
+- Tableau write blocker
+- WiebeTech write blocker
 
 These ensure evidence integrity.
 
@@ -124,11 +108,9 @@ dd if=/dev/sda of=disk.img bs=4M status=progress
 
 Parameters:
 
-```
-if = input file (source disk)
-of = output file (image file)
-bs = block size
-```
+- `if` → input file (source disk)
+- `of` → output file (image file)
+- `bs` → block size
 
 ---
 
@@ -142,10 +124,8 @@ dd if=/dev/sda of=evidence.img bs=4M conv=noerror,sync
 
 Options:
 
-```
-noerror → continue on read errors
-sync → pad missing blocks
-```
+- `noerror` → continue on read errors
+- `sync` → pad missing blocks
 
 Useful for damaged disks.
 
@@ -153,15 +133,13 @@ Useful for damaged disks.
 
 ## dc3dd
 
-`dc3dd` is an enhanced forensic version of dd.
+`dc3dd` is an enhanced forensic version of `dd`.
 
 Features:
 
-```
-hash calculation
-error handling
-progress reporting
-```
+- hash calculation
+- error handling
+- progress reporting
 
 Example:
 
@@ -175,19 +153,15 @@ dc3dd if=/dev/sda of=disk.img hash=sha256 log=acquisition.log
 
 Graphical acquisition tools include:
 
-```
-Guymager
-FTK Imager
-EnCase Imager
-```
+- Guymager
+- FTK Imager
+- EnCase Imager
 
 These tools provide:
 
-```
-hash verification
-evidence metadata
-logging
-```
+- hash verification
+- evidence metadata
+- acquisition logging
 
 ---
 
@@ -204,7 +178,7 @@ sha256sum disk.img
 Example result:
 
 ```
-b1946ac92492d2347c6235b4d2611184 disk.img
+b1946ac92492d2347c6235b4d2611184  disk.img
 ```
 
 Hash values confirm the image was not modified.
@@ -213,20 +187,12 @@ Hash values confirm the image was not modified.
 
 ## Hash Verification Workflow
 
-```
-Hash original disk
-      |
-      v
-Create forensic image
-      |
-      v
-Hash disk image
-      |
-      v
-Compare hashes
-```
+1. Hash the original disk
+2. Create the forensic image
+3. Hash the disk image
+4. Compare hashes
 
-Matching hashes confirm integrity.
+Matching hashes confirm image integrity.
 
 ---
 
@@ -236,12 +202,10 @@ Investigators must document evidence handling.
 
 Example information:
 
-```
-who collected evidence
-when it was collected
-where it was stored
-who accessed it
-```
+- who collected the evidence
+- when it was collected
+- where it was stored
+- who accessed it
 
 Proper documentation ensures legal validity.
 
@@ -251,11 +215,7 @@ Proper documentation ensures legal validity.
 
 Important acquisition principles:
 
-```
-never modify original evidence
-create verified disk images
-use write blockers
-document acquisition process
-```
-
-These steps ensure reliable forensic analysis.
+- never modify original evidence
+- create verified disk images
+- use write blockers
+- document the acquisition process

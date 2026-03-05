@@ -1,381 +1,252 @@
 ---
 layout: section
-subtitle: Practical forensic analysis tools
+subtitle: Where investigators find evidence
 ---
 
-# Forensic Tools
-
----
-
-## Toolchain Overview
-
-A typical forensic investigation uses multiple tools.
-
-```
-Disk image
-   |
-   v
-Acquisition
-   |
-   v
-Filesystem analysis
-   |
-   v
-File recovery
-   |
-   v
-Timeline analysis
-```
-
-Example toolchain:
-
-```
-dd
-The Sleuth Kit
-scalpel
-log2timeline
-```
+# Forensic Artifacts
 
 ---
 
-# Disk Acquisition
+## What Are Forensic Artifacts?
+
+Forensic artifacts are traces of activity left by users, applications, or the operating system.
+
+These artifacts help investigators answer questions such as:
+
+- What happened on the system?
+- When did it happen?
+- Which user was involved?
+
+Artifacts often contain valuable evidence about system activity.
 
 ---
 
-## Disk Imaging
+## Sources of Artifacts
 
-Before analysis we must create a **forensic disk image**.
+Artifacts can originate from many parts of a system:
 
-Goals:
+- filesystems
+- operating system logs
+- application data
+- browser history
+- system configuration
 
-- preserve original evidence
-- perform analysis on a copy
-- maintain forensic integrity
-
-Common format:
-
-```
-RAW disk image
-```
+Investigators correlate multiple artifact sources to reconstruct events.
 
 ---
 
-## dd – Basic Disk Imaging
+## Common Artifact Categories
 
-The `dd` utility copies raw disk data.
+Artifacts can generally be grouped into several categories:
 
-Example:
+- user activity
+- program execution
+- file access
+- system events
+- network activity
 
-```
-dd if=/dev/sda of=disk.img bs=4M status=progress
-```
-
-Meaning:
-
-```
-if = input file (source disk)
-of = output file (image)
-bs = block size
-```
+Each category reveals a different part of system behavior.
 
 ---
 
-## dd – Forensic Imaging Example
+## Windows Artifacts
 
-```
-dd if=/dev/sda of=evidence.img bs=4M conv=noerror,sync
-```
+Common forensic artifacts on Windows systems include:
 
-Options:
+- Prefetch files
+- Event Logs
+- Registry
+- Jump Lists
+- Recycle Bin
+- Browser artifacts
 
-```
-noerror → continue on read errors
-sync → pad blocks with zeros
-```
-
-Useful when imaging damaged disks.
+These artifacts help reconstruct user and system activity.
 
 ---
 
-## Hash Verification
+## Windows Prefetch
 
-After imaging we verify integrity.
+Prefetch files track program execution.
 
-```
-sha256sum evidence.img
-```
-
-Example:
+Location:
 
 ```
-b1946ac92492d2347c6235b4d2611184 evidence.img
+C:\Windows\Prefetch\
 ```
 
-Hash ensures evidence integrity.
+Prefetch files contain:
+
+- program name
+- execution timestamps
+- number of executions
+- referenced files
+
+This makes them extremely valuable during investigations.
 
 ---
 
-# Filesystem Analysis
+## Windows Event Logs
+
+Windows logs system and security events.
+
+Location:
+
+```
+C:\Windows\System32\winevt\Logs\
+```
+
+Event logs record many system activities.
+
+Examples include:
+
+- user logins
+- service activity
+- process creation
+- system changes
 
 ---
 
-## Identify Partitions
+## Important Windows Event IDs
 
-```
-mmls disk.img
-```
+Some event IDs frequently used in investigations include:
 
-Example output:
+- **4624** – successful login
+- **4625** – failed login
+- **4688** – process creation
+- **4720** – user account created
+- **7045** – service installed
 
-```
-DOS Partition Table
-
-Slot    Start      End        Length
-00:01   0000002048 0004095999 4093952 NTFS
-```
-
-This tells us where the filesystem begins.
+These events help track system activity.
 
 ---
 
-## Filesystem Metadata
+## Windows Registry
+
+The Windows Registry stores configuration and activity information.
+
+Example registry hive locations:
 
 ```
-fsstat disk.img
+C:\Windows\System32\Config\
 ```
 
-Example output:
+Important hives include:
 
-```
-File System Type: NTFS
-Cluster Size: 4096
-MFT Entry Size: 1024
-```
+- SAM
+- SYSTEM
+- SOFTWARE
+- SECURITY
+- NTUSER.DAT
 
-This reveals filesystem structures.
+Registry analysis can reveal user activity and system configuration.
 
 ---
 
-## Listing Files
+## Linux Artifacts
 
-```
-fls disk.img
-```
+Linux systems store important artifacts in system logs and user files.
 
-Example:
+Examples include:
 
-```
-r/r 128-128-1: report.txt
-r/r *129-129-1: deleted.txt
-```
+- system logs
+- shell history
+- authentication logs
+- scheduled tasks
 
-Symbol:
-
-```
-*
-```
-
-means **deleted file**.
+These artifacts provide insight into system activity.
 
 ---
 
-## Inspect File Metadata
+## Linux Log Files
+
+Important log locations:
 
 ```
-istat disk.img 129
+/var/log/syslog
+/var/log/auth.log
+/var/log/messages
 ```
 
-Example:
+These logs record:
 
-```
-Created: 2023-10-01
-Modified: 2023-10-02
-Accessed: 2023-10-03
-```
-
-Also shows cluster allocation.
+- system events
+- authentication attempts
+- service activity
 
 ---
 
-## Recover File Data
+## Linux User Artifacts
+
+User activity often appears in:
 
 ```
-icat disk.img 129 > recovered.txt
+~/.bash_history
+~/.ssh/
+~/.config/
 ```
 
-This extracts file content from disk image.
+These files can reveal:
+
+- executed commands
+- SSH connections
+- application settings
 
 ---
 
-# File Carving
+## macOS Artifacts
+
+macOS systems store many artifacts in system databases and logs.
+
+Examples include:
+
+- unified logs
+- recent items
+- application logs
+- user activity databases
+
+These artifacts help reconstruct system usage.
 
 ---
 
-## What is File Carving?
+## macOS Unified Logs
 
-File carving searches raw disk data for file signatures.
+macOS uses a centralized logging system.
 
-Useful when:
+Investigators can query logs using:
 
-- metadata is destroyed
-- filesystem is corrupted
-- deleted files lost their directory entries
+```
+log show
+```
+
+These logs may contain:
+
+- system events
+- application activity
+- security events
 
 ---
 
-## Scalpel
+## Correlating Artifacts
 
-Scalpel is a **file carving tool**.
+A single artifact rarely tells the whole story.
 
-It scans disk images for file headers.
+Investigators correlate multiple sources:
 
-Example:
+- filesystem metadata
+- system logs
+- registry entries
+- application artifacts
 
-```
-scalpel disk.img
-```
-
-Recovered files are placed into output folders.
-
----
-
-## Example Signatures
-
-Carving tools detect file types using signatures.
-
-Example:
-
-```
-JPEG  FF D8 FF
-PDF   25 50 44 46
-ZIP   50 4B 03 04
-```
-
-These signatures mark file headers.
+This process helps reconstruct a timeline of events.
 
 ---
 
-# Timeline Analysis
+## Key Takeaway
 
----
+Forensic artifacts exist across many system components.
 
-## Why Timelines Matter
+Effective investigations require:
 
-Investigators want to know:
-
-```
-What happened?
-When did it happen?
-Which files were involved?
-```
-
-Timeline analysis answers these questions.
-
----
-
-## log2timeline
-
-log2timeline extracts timestamps from many sources.
-
-Artifacts include:
-
-```
-filesystem metadata
-Windows artifacts
-logs
-registry
-```
-
-Output is stored in a timeline database.
-
----
-
-## log2timeline Example
-
-```
-log2timeline.py timeline.plaso disk.img
-```
-
-This parses artifacts and creates a **plaso timeline file**.
-
----
-
-## Generate Timeline
-
-Convert timeline database to readable format:
-
-```
-psort.py -o l2tcsv timeline.plaso > timeline.csv
-```
-
-Example output:
-
-```
-Date        Time        Description
------------------------------------------
-2023-10-01  10:32       File created
-2023-10-01  10:33       File modified
-2023-10-01  10:35       File deleted
-```
-
----
-
-## Timeline Correlation
-
-Example timeline reconstruction:
-
-```
-10:32 File created
-10:33 File modified
-10:35 File deleted
-10:36 USB inserted
-```
-
-Investigators correlate these events.
-
----
-
-## Full DFIR Workflow
-
-```
-1 Acquire disk image (dd)
-2 Identify partitions (mmls)
-3 Inspect filesystem (fsstat)
-4 List files (fls)
-5 Recover deleted files (icat)
-6 Carve files (scalpel)
-7 Build timeline (log2timeline)
-```
-
----
-
-## Key Commands
-
-Disk imaging
-
-```
-dd if=/dev/sda of=disk.img bs=4M
-```
-
-Filesystem analysis
-
-```
-mmls
-fsstat
-fls
-istat
-icat
-```
-
-Recovery
-
-```
-scalpel
-```
-
-Timeline
-
-```
-log2timeline
-psort
-```
+- identifying relevant artifacts
+- collecting evidence from multiple sources
+- correlating data across systems

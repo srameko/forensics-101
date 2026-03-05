@@ -9,7 +9,9 @@ subtitle: Why digital forensics matters
 
 ## What is Digital Forensics?
 
-::columns::
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Digital forensics is the process of:
 
@@ -20,7 +22,9 @@ Digital forensics is the process of:
 
 The goal is to reconstruct **what actually happened on a system**.
 
-::
+</div>
+
+<div style="flex:2">
 
 ```mermaid
 flowchart TD
@@ -34,13 +38,17 @@ B --> C
 C --> D
 ```
 
-::
+</div>
+
+</div>
 
 ---
 
 ## Questions Forensics Can Answer
 
-::columns::
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Investigators try to answer questions such as:
 
@@ -50,7 +58,9 @@ Investigators try to answer questions such as:
 - Who was involved?
 - What data was affected?
 
-::
+</div>
+
+<div style="flex:2">
 
 ```mermaid
 flowchart TD
@@ -62,13 +72,17 @@ D[Conclusion]
 A --> B --> C --> D
 ```
 
-::
+</div>
+
+</div>
 
 ---
 
 ## Digital Evidence is Everywhere
 
-::columns::
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Modern systems constantly generate traces.
 
@@ -82,7 +96,9 @@ Examples include:
 
 These traces become **forensic artifacts**.
 
-::
+</div>
+
+<div style="flex:2">
 
 ```mermaid
 flowchart TD
@@ -94,7 +110,9 @@ A --> B
 B --> C
 ```
 
-::
+</div>
+
+</div>
 
 ---
 
@@ -118,27 +136,35 @@ Digital forensics helps answer these questions.
 
 ## Real-World Use Cases
 
-::columns::
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:1">
 
 - malware investigations  
 - data breaches  
 - insider threats  
 - fraud investigations  
 
-::
+</div>
+
+<div style="flex:1">
 
 - corporate investigations  
 - law enforcement  
 - incident response  
 - threat hunting  
 
-::
+</div>
+
+</div>
 
 ---
 
 ## Digital Forensics vs Incident Response
 
-::columns::
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 ### Incident Response
 
@@ -152,7 +178,9 @@ Digital forensics helps answer these questions.
 - reconstruct events  
 - support investigations  
 
-::
+</div>
+
+<div style="flex:2">
 
 ```mermaid
 flowchart LR
@@ -164,7 +192,9 @@ D[Lessons Learned]
 A --> B --> C --> D
 ```
 
-::
+</div>
+
+</div>
 
 ---
 

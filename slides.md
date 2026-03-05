@@ -2,6 +2,12 @@
 theme: ./theme
 title: Digital Forensics Fundamentals
 author: Ondrej Sramek
+mdc: true
+shiki:
+  theme: github-light
+fonts:
+  sans: Open Sans
+  mono: Source Code Pro
 ---
 
 # Digital Forensics
@@ -63,4 +69,30 @@ src: ./slides/08-timeline.md
 
 ---
 src: ./slides/09-summary.md
+---
+
+---
+layout: section
+---
+
+# Závěr
+
+---
+layout: center
+---
+
+# Děkujeme za pozornost!
+
+Ondřej Šrámek
+
+**Czechitas · DA Kybernetická bezpečnost · 2026**
+
+---
+layout: center
+---
+
+# Zpětná vazba
+
+Budeme rádi za vaši zpětnou vazbu!
+
 ---

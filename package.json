@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "slidev",
-    "build": "slidev build --base /forensics-101/",
+    "build": "slidev build --base /forensics-101/ --out dist",
     "preview": "npm run build && npx serve dist -l 4000"
   },
   "dependencies": {

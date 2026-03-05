@@ -1,370 +1,180 @@
 ---
 layout: section
-subtitle: Recovering deleted files and forensic artifacts
+subtitle: Recovering deleted and lost files
 ---
 
-# Deleted Files & Recovery
-
----
-
-## What Happens When a File is Deleted
-
-Deleting a file usually does **not remove the data immediately**.
-
-Instead the filesystem:
-
-- marks metadata as deleted
-- frees the clusters
-- leaves the data intact
-
-```
-Metadata  -> deleted
-Clusters  -> reusable
-Data      -> still present
-```
+# File Recovery
 
 ---
 
-## Conceptual Example
+## Why File Recovery Matters
 
-Before deletion:
+When files are deleted, the data is usually **not immediately erased**.
 
-```
-Directory entry -> cluster 12
-Cluster chain -> 12 -> 13 -> 14
-```
+Instead:
 
-After deletion:
+- filesystem metadata changes
+- disk space becomes available for reuse
+- file data often remains on disk
 
-```
-Directory entry -> marked deleted
-Clusters -> available for reuse
-```
-
-Data remains until overwritten.
+This behavior allows investigators to recover deleted files.
 
 ---
 
-## FAT Deletion Example
+## How File Deletion Works
 
-Directory entry:
+In most filesystems, deletion follows a similar process:
 
-```
-TEST.TXT
-```
+1. The directory entry is marked as deleted
+2. Disk clusters are marked as free
+3. The file data remains until overwritten
 
-After deletion:
-
-```
-E5EST.TXT
-```
-
-Meaning:
-
-```
-0xE5 = entry available
-```
-
-Cluster chain may still contain the file data.
+Because of this, deleted files may remain recoverable.
 
 ---
 
-## NTFS Deletion
+## Recovery Methods
 
-In NTFS the file is marked as deleted in the **MFT record**.
+Investigators typically use two recovery approaches:
 
-Example:
+- filesystem-based recovery
+- file carving
 
-```
-MFT entry flag -> unused
-```
-
-The file content may still exist in the clusters.
+Both techniques are commonly used in digital forensics.
 
 ---
 
-## Why Recovery Works
+## Filesystem-Based Recovery
 
-Forensic tools reconstruct files using:
+Filesystem-based recovery relies on filesystem metadata.
 
-- metadata structures
-- cluster allocation
-- file system artifacts
+Examples:
 
-Example workflow:
+- FAT directory entries
+- NTFS MFT records
+- cluster chains
 
-```
-Find file metadata
-Locate clusters
-Extract file data
-```
-
----
-
-## Sleuth Kit Overview
-
-The Sleuth Kit provides command line tools for forensic analysis.
-
-Common tools:
-
-```
-mmls
-fsstat
-fls
-istat
-icat
-blkls
-mactime
-```
-
-Each tool analyzes a different aspect of the filesystem.
-
----
-
-## Step 1 – Identify Partitions
-
-```
-mmls disk.img
-```
-
-Example output:
-
-```
-DOS Partition Table
-Offset Sector: 0
-
-Slot    Start      End        Length
-00:00   0000000000 0000002047 2048   Primary Table
-00:01   0000002048 0004095999 4093952 NTFS
-```
-
-This tells us where the filesystem starts.
-
----
-
-## Step 2 – Filesystem Information
-
-```
-fsstat disk.img
-```
-
-This command shows:
-
-- filesystem type
-- cluster size
-- metadata locations
-- MFT position
-
-Example:
-
-```
-File System Type: NTFS
-Cluster Size: 4096
-MFT Entry Size: 1024
-```
-
----
-
-## Step 3 – List Files
-
-```
-fls disk.img
-```
-
-Example output:
-
-```
-r/r 128-128-1: document.txt
-r/r *129-129-1: deleted.txt
-d/d 130-130-1: Documents
-```
-
-Deleted files are marked with:
-
-```
-*
-```
-
----
-
-## Step 4 – Inspect File Metadata
-
-```
-istat disk.img 129
-```
-
-This displays:
-
-- timestamps
-- file size
-- cluster locations
-- metadata attributes
-
-Example:
-
-```
-Created: 2023-10-01
-Modified: 2023-10-02
-Accessed: 2023-10-03
-```
-
----
-
-## Step 5 – Recover File Data
-
-```
-icat disk.img 129 > recovered.txt
-```
-
-Meaning:
-
-```
-Extract file content from inode / MFT entry
-```
-
-Recovered file is written to disk.
-
----
-
-## Extract Unallocated Space
-
-Sometimes deleted files no longer have metadata.
-
-We can analyze **unallocated space**.
-
-```
-blkls disk.img > unallocated.raw
-```
-
-This extracts all unused disk space.
+If metadata still exists, tools can reconstruct the file structure.
 
 ---
 
 ## File Carving
 
-File carving searches raw data for file signatures.
+File carving is used when filesystem metadata is missing or damaged.
 
-Example:
+Instead of metadata, carving relies on **file signatures**.
 
-```
-foremost disk.img
-```
-
-or
-
-```
-scalpel disk.img
-```
-
-These tools detect files based on headers.
-
-Example signatures:
-
-```
-JPEG
-PDF
-ZIP
-DOCX
-```
+Investigators scan raw disk data to locate recognizable file headers.
 
 ---
 
-## Slack Space
+## File Signature Example
 
-Slack space is unused space within clusters.
-
-Example:
+Example JPEG signature:
 
 ```
-Cluster size = 4096 bytes
-File size = 3000 bytes
-Slack = 1096 bytes
+FFD8FFE0
 ```
 
-Diagram:
+Example PDF signature:
 
 ```
-+-----------------------+
-| File Data             |
-+-----------------------+
-| Slack Space           |
-+-----------------------+
+25504446
 ```
 
-Slack space may contain remnants of previous files.
+These signatures help identify file types in raw disk data.
 
 ---
 
-## Timeline Creation
-
-Timeline analysis reconstructs system activity.
-
-Steps:
+## File Carving Concept
 
 ```
-fls -r -m / disk.img > bodyfile
+Raw Disk Data
+     │
+     ▼
+File Signature Detection
+     │
+     ▼
+Extract File Content
 ```
 
-Then generate timeline:
-
-```
-mactime -b bodyfile
-```
-
-Output:
-
-```
-Date        Time        Activity
---------------------------------
-2023-10-01  File created
-2023-10-02  File modified
-2023-10-03  File accessed
-```
+The tool scans the disk for known file headers and reconstructs files.
 
 ---
 
-## Why Timelines Are Useful
+## File Carving Tools
 
-Timelines help investigators answer:
+Common file carving tools include:
 
-- What happened?
-- When did it happen?
-- What files were involved?
+- scalpel
+- foremost
+- bulk extractor
+- photorec
 
-Timeline correlation is key in incident response.
-
----
-
-## Typical DFIR Workflow
-
-```
-1 Identify partitions
-2 Identify filesystem
-3 List files
-4 Locate deleted files
-5 Recover data
-6 Build timeline
-```
-
-Tools involved:
-
-```
-mmls
-fsstat
-fls
-istat
-icat
-mactime
-```
+These tools analyze raw disk data and extract recognizable files.
 
 ---
 
-## Key Takeaways
+## Example Scalpel Configuration
 
-Deleted files often remain recoverable because:
+Scalpel uses configuration files to define file signatures.
 
-- metadata structures persist
-- clusters are reused later
-- filesystem artifacts remain
+Example entry:
 
-This is why **forensic recovery is possible**.
+```
+jpg     y       2000000     \xff\xd8\xff\xe0
+```
+
+This tells Scalpel how to detect JPEG files.
+
+---
+
+## Running Scalpel
+
+Example command:
+
+```
+scalpel disk.img -o output_directory
+```
+
+The tool scans the disk image and extracts files into the output directory.
+
+---
+
+## Limitations of File Carving
+
+File carving is powerful but has limitations:
+
+- fragmented files may not be recoverable
+- recovered files may lack filenames
+- timestamps are often missing
+
+Because of this, carving is often used as a **last resort**.
+
+---
+
+## Forensic Workflow Example
+
+A typical recovery workflow may look like this:
+
+1. Acquire disk image
+2. Identify filesystem
+3. Attempt filesystem-based recovery
+4. Perform file carving if needed
+5. Analyze recovered files
+
+This approach maximizes the chance of recovering useful evidence.
+
+---
+
+## Key Takeaway
+
+Deleted files often remain recoverable.
+
+Investigators can recover files using:
+
+- filesystem metadata
+- raw disk analysis
+- file signature detection
+
+File recovery is a fundamental capability in digital forensics.

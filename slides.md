@@ -9,7 +9,7 @@ author: Ondrej Sramek
 
 ---
 layout: bio
-image: /public/bio.png
+image: ./public/bio.png
 name: "Ondřej Šrámek"
 subtitle: "GMON GNFA GCTI"
 ---

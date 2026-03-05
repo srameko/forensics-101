@@ -1,361 +1,237 @@
 ---
 layout: section
-subtitle: NTFS internals and forensic artifacts
+subtitle: NTFS filesystem internals
 ---
 
 # NTFS Filesystem
 
 ---
 
-## NTFS Overview
+## What is NTFS?
 
-NTFS = **New Technology File System**
+NTFS stands for **New Technology File System**.
 
-Introduced with:
+It is the primary filesystem used by modern Windows systems.
 
-- Windows NT
-- Windows 2000
-- Windows XP
-- modern Windows systems
+NTFS provides many advanced features:
 
-Key characteristics:
+- journaling
+- access control lists
+- large file support
+- extensive metadata storage
 
-- journaling filesystem
-- advanced metadata
-- security descriptors
-- better reliability than FAT
+These features also make NTFS extremely valuable for forensic investigations.
 
 ---
 
-## NTFS Disk Layout
+## NTFS Key Concept
 
-```
-+----------------------+
-| Boot Sector          |
-+----------------------+
-| MFT (Master File Table)
-+----------------------+
-| MFT Mirror           |
-+----------------------+
-| Metadata Files       |
-+----------------------+
-| User Data            |
-+----------------------+
-```
+The most important NTFS structure is the:
 
-Important concept:
+**Master File Table (MFT)**
 
-```
-Everything is a file
-```
-
-Even filesystem metadata.
+Every file and directory on an NTFS volume is represented by a record in the MFT.
 
 ---
 
 ## Master File Table (MFT)
 
-The **Master File Table** is the core structure of NTFS.
+The MFT is essentially a database of all files.
 
-It contains:
-
-```
-One record per file
-```
-
-Typical size of one record:
+Each file has its own **MFT record**.
 
 ```
-1024 bytes
++--------------------+
+| MFT Record         |
++--------------------+
+| File Metadata      |
+| File Attributes    |
+| File Timestamps    |
+| Data Runs          |
++--------------------+
 ```
 
-Every file and directory has a corresponding MFT entry.
+Even system files and directories are stored as MFT records.
 
 ---
 
-## MFT Record Structure
+## MFT Record Size
 
-```
-+----------------------+
-| MFT Header           |
-+----------------------+
-| Attribute #1         |
-+----------------------+
-| Attribute #2         |
-+----------------------+
-| Attribute #3         |
-+----------------------+
-| ...                  |
-+----------------------+
-```
+Typical properties:
 
-Attributes store all file metadata.
+- default size: **1024 bytes**
+- contains file metadata
+- contains file attributes
+- may contain file data (for small files)
+
+Small files may be stored **directly inside the MFT**.
+
+This is called **resident data**.
 
 ---
 
 ## NTFS Attributes
 
-NTFS stores file information as **attributes**.
+NTFS stores information using attributes.
 
-Examples:
+Common attributes include:
 
-```
-$STANDARD_INFORMATION
-$FILE_NAME
-$DATA
-$SECURITY_DESCRIPTOR
-```
+- `$STANDARD_INFORMATION`
+- `$FILE_NAME`
+- `$DATA`
+- `$SECURITY_DESCRIPTOR`
 
-Attributes can store:
-
-- timestamps
-- file names
-- permissions
-- file content
+Each attribute stores different information about the file.
 
 ---
 
 ## $STANDARD_INFORMATION
 
-This attribute contains key metadata.
+This attribute contains important metadata:
 
-Example:
+- timestamps
+- file permissions
+- file owner
+- security identifiers
 
-```
-Creation Time
-Modification Time
-MFT Modification Time
-Access Time
-```
-
-These timestamps are known as:
-
-```
-MACB timestamps
-```
-
----
-
-## MACB Timestamps
-
-MACB stands for:
-
-```
-M  Modified
-A  Accessed
-C  Metadata Changed
-B  Birth / Created
-```
-
-Example timeline:
-
-```
-File created
-File modified
-File accessed
-Metadata updated
-```
-
-These timestamps are very important in forensic investigations.
+Timestamps stored here are often used in forensic timelines.
 
 ---
 
 ## $FILE_NAME Attribute
 
-Stores information about the filename.
+This attribute contains:
 
-Contains:
+- filename
+- parent directory reference
+- additional timestamps
+
+Interestingly, timestamps here may differ from `$STANDARD_INFORMATION`.
+
+This difference can reveal forensic artifacts.
+
+---
+
+## NTFS Timestamps
+
+NTFS tracks multiple timestamps.
+
+These are commonly referred to as **MACB**:
 
 ```
-Filename
-Parent directory reference
-File timestamps
-File size
+M → Modified
+A → Accessed
+C → Metadata Changed
+B → Created (Birth)
 ```
 
-A file may have multiple filename attributes.
+These timestamps are extremely important for forensic timelines.
+
+---
+
+## Timestamp Storage Locations
+
+NTFS stores timestamps in multiple locations.
+
+```
+$STANDARD_INFORMATION
+$FILE_NAME
+```
+
+Because timestamps exist in multiple places, investigators can detect inconsistencies.
+
+---
+
+## Detecting Timestamp Manipulation
+
+If an attacker performs **timestomping**, timestamps may differ.
 
 Example:
 
 ```
-Short name
-Long name
+$STANDARD_INFORMATION → 2015
+$FILE_NAME           → 2024
 ```
 
----
-
-## $DATA Attribute
-
-This attribute contains the actual file content.
-
-Example:
-
-```
-File bytes
-```
-
-Small files may be stored directly inside the MFT record.
-
-This is called:
-
-```
-Resident data
-```
-
----
-
-## Resident vs Non-Resident Data
-
-Resident file:
-
-```
-Data stored inside MFT record
-```
-
-Non-resident file:
-
-```
-Data stored in disk clusters
-```
-
-Example layout:
-
-```
-MFT Record
-    |
-    +-- Data runs
-           |
-           +-- Cluster chain
-```
+This mismatch may indicate timestamp manipulation.
 
 ---
 
 ## Data Runs
 
-NTFS uses **data runs** to describe where file clusters are located.
+For larger files, NTFS stores file data outside the MFT.
 
-Example:
+The `$DATA` attribute contains **data runs** that point to disk clusters.
 
-```
-Cluster 100 -> length 5
-Cluster 200 -> length 3
-```
-
-Meaning:
+Example concept:
 
 ```
-clusters 100-104
-clusters 200-202
+File
+ │
+ ▼
+Data Runs
+ │
+ ▼
+Clusters on disk
 ```
 
-This allows efficient storage of fragmented files.
+These runs map logical file data to physical disk locations.
 
 ---
 
 ## Alternate Data Streams (ADS)
 
-NTFS supports **multiple data streams** per file.
+NTFS supports **Alternate Data Streams**.
+
+This allows multiple data streams to exist within a single file.
 
 Example:
 
 ```
 file.txt
-file.txt:secret
+file.txt:hidden
 ```
 
-The second stream may contain hidden data.
-
-Example usage:
-
-```
-Zone.Identifier
-```
-
-This is often used to mark downloaded files.
+ADS can be abused to hide data.
 
 ---
 
-## NTFS Journaling
+## Example ADS Usage
 
-NTFS includes a **transaction log**.
-
-Log file:
+Example command:
 
 ```
-$LogFile
+echo secret > file.txt:hidden
 ```
 
-Purpose:
+The hidden stream will not appear in normal directory listings.
 
-```
-track filesystem changes
-recover from crashes
-```
-
-This can also provide useful forensic artifacts.
+Investigators must specifically check for ADS.
 
 ---
 
-## NTFS Metadata Files
+## Why NTFS is Valuable for Forensics
 
-NTFS stores internal metadata as special files.
+NTFS stores large amounts of metadata.
 
-Examples:
-
-```
-$MFT
-$MFTMirr
-$LogFile
-$Bitmap
-$Secure
-```
-
-These files manage filesystem state.
-
----
-
-## NTFS Deletion
-
-When a file is deleted:
-
-```
-MFT entry is marked as unused
-```
-
-However:
-
-```
-File data often remains on disk
-```
-
-Until overwritten.
-
-This allows forensic recovery.
-
----
-
-## NTFS Forensic Value
-
-NTFS provides many forensic artifacts:
+Investigators can analyze:
 
 - MFT records
 - timestamps
-- filename history
+- file attributes
 - alternate data streams
-- journal logs
 
 These artifacts help reconstruct system activity.
 
 ---
 
-## Why NTFS is Important for DFIR
+## Key Takeaway
 
-Most modern Windows systems use NTFS.
+NTFS is rich in forensic evidence.
 
-Therefore forensic investigations often rely on:
+Because of its metadata structures, investigators can often:
 
-```
-MFT analysis
-timeline reconstruction
-artifact correlation
-```
+- reconstruct file activity
+- detect timestamp manipulation
+- discover hidden data
+- rebuild timelines from filesystem artifacts

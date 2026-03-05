@@ -50,6 +50,10 @@ src: ./slides/07-tools.md
 ---
 
 ---
+src: ./slides/10-artifacts.md
+---
+
+---
 src: ./slides/08-timeline.md
 ---
 

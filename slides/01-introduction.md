@@ -7,22 +7,43 @@ subtitle: Why digital forensics matters
 
 ---
 
----
-layout: two-cols
----
-
 ## What is Digital Forensics?
+
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Digital forensics is the process of:
 
+<v-click>
+
 1. Collecting evidence  
+
+</v-click>
+
+<v-click>
+
 2. Preserving evidence  
+
+</v-click>
+
+<v-click>
+
 3. Analyzing artifacts  
+
+</v-click>
+
+<v-click>
+
 4. Presenting findings  
+
+</v-click>
 
 The goal is to reconstruct **what actually happened on a system**.
 
-::right::
+</div>
+
+<div style="flex:2">
 
 ```mermaid
 flowchart TD
@@ -36,41 +57,91 @@ B --> C
 C --> D
 ```
 
+</div>
+
+</div>
+
 ---
 
 ## Questions Forensics Can Answer
 
-Digital investigations try to answer questions such as:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+Investigators try to answer questions such as:
+
+<v-click>
 
 - What happened?
+
+</v-click>
+
+<v-click>
+
 - When did it happen?
+
+</v-click>
+
+<v-click>
+
 - How did it happen?
+
+</v-click>
+
+<v-click>
+
 - Who was involved?
+
+</v-click>
+
+<v-click>
+
 - What data was affected?
 
-These questions guide forensic investigations.
+</v-click>
 
----
+</div>
 
----
-layout: two-cols
+<div style="flex:2">
+
+```mermaid
+flowchart TD
+A[Incident]
+B[Evidence]
+C[Analysis]
+D[Conclusion]
+
+A --> B --> C --> D
+```
+
+</div>
+
+</div>
+
 ---
 
 ## Digital Evidence is Everywhere
+
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Modern systems constantly generate traces.
 
 Examples include:
 
-- filesystems
-- system logs
-- browser history
-- application data
-- network logs
+- filesystem metadata  
+- system logs  
+- browser history  
+- application data  
+- network logs  
 
 These traces become **forensic artifacts**.
 
-::right::
+</div>
+
+<div style="flex:2">
 
 ```mermaid
 flowchart TD
@@ -82,23 +153,55 @@ A --> B
 B --> C
 ```
 
+</div>
+
+</div>
+
 ---
 
 ## Example Incident
 
 Imagine the following situation:
 
+<v-click>
+
 - A company reports suspicious activity
+
+</v-click>
+
+<v-click>
+
 - Files suddenly disappear
+
+</v-click>
+
+<v-click>
+
 - Unusual network traffic appears
+
+</v-click>
 
 Investigators must determine:
 
+<v-click>
+
 - what happened
+
+</v-click>
+
+<v-click>
+
 - how the attacker entered
+
+</v-click>
+
+<v-click>
+
 - what data was accessed
 
-Digital forensics provides the answers.
+</v-click>
+
+Digital forensics helps answer these questions.
 
 ---
 
@@ -106,36 +209,51 @@ Digital forensics provides the answers.
 
 Digital forensics is used in many investigations:
 
-- malware incidents
-- data breaches
-- insider threats
-- fraud investigations
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
 
-Organizations rely on forensic analysis to understand security incidents.
+<div style="flex:1">
 
----
+- malware investigations  
+- data breaches  
+- insider threats  
+- fraud investigations  
 
----
-layout: two-cols
+</div>
+
+<div style="flex:1">
+
+- corporate investigations  
+- law enforcement  
+- incident response  
+- threat hunting  
+
+</div>
+
+</div>
+
 ---
 
 ## Digital Forensics vs Incident Response
 
-Both disciplines work closely together.
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 ### Incident Response
 
-- detect attacks
-- contain threats
-- restore systems
+- detect attacks  
+- contain threats  
+- restore systems  
 
 ### Digital Forensics
 
-- analyze evidence
-- reconstruct events
-- support investigations
+- analyze evidence  
+- reconstruct events  
+- support investigations  
 
-::right::
+</div>
+
+<div style="flex:2">
 
 ```mermaid
 flowchart LR
@@ -147,29 +265,20 @@ D[Lessons Learned]
 A --> B --> C --> D
 ```
 
----
+</div>
 
-## Why Learn Digital Forensics?
-
-Digital forensics helps security professionals:
-
-- understand attacker behavior
-- investigate incidents
-- recover evidence
-- improve defenses
-
-It transforms **technical traces into investigative insight**.
+</div>
 
 ---
 
-## Skills Used in Forensics
+## Skills Used in Digital Forensics
 
 Digital forensics combines several disciplines:
 
-- technical knowledge
-- analytical thinking
-- attention to detail
-- investigative methodology
+- technical knowledge  
+- analytical thinking  
+- attention to detail  
+- investigative methodology  
 
 It is both **technical analysis and investigative work**.
 
@@ -179,11 +288,35 @@ It is both **technical analysis and investigative work**.
 
 In this workshop we will explore:
 
+<v-click>
+
 1. Disk acquisition  
+
+</v-click>
+
+<v-click>
+
 2. Filesystem structures  
+
+</v-click>
+
+<v-click>
+
 3. Forensic artifacts  
+
+</v-click>
+
+<v-click>
+
 4. File recovery  
+
+</v-click>
+
+<v-click>
+
 5. Timeline reconstruction  
+
+</v-click>
 
 These concepts form the foundation of forensic analysis.
 
@@ -201,14 +334,4 @@ D[Incident Reconstruction]
 A --> B --> C --> D
 ```
 
-Digital forensics turns raw data into an explanation of events.
-
----
-
-## Next Step
-
-Next we will examine:
-
-**How forensic disk images are created.**
-
-Disk acquisition is the first step in any forensic investigation.
+Digital forensics turns raw technical data into a narrative explaining what happened.

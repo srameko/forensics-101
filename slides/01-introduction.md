@@ -11,12 +11,10 @@ subtitle: Why digital forensics matters
 
 Digital forensics is the process of:
 
-```
-collecting
-preserving
-analyzing
-presenting
-```
+1. Collecting
+2. Preserving
+3. Analyzing
+4. Presenting
 
 digital evidence.
 
@@ -30,12 +28,10 @@ Digital evidence plays a role in many investigations.
 
 Examples:
 
-```
-cybercrime investigations
-incident response
-corporate investigations
-law enforcement
-```
+- cybercrime investigations
+- incident response
+- corporate investigations
+- law enforcement
 
 Digital traces exist in almost every modern activity.
 
@@ -45,13 +41,11 @@ Digital traces exist in almost every modern activity.
 
 Investigators try to answer questions such as:
 
-```
-What happened?
-When did it happen?
-How did it happen?
-Who was involved?
-What data was affected?
-```
+- What happened?
+- When did it happen?
+- How did it happen?
+- Who was involved?
+- What data was affected?
 
 Digital evidence helps reconstruct the story.
 
@@ -61,19 +55,16 @@ Digital evidence helps reconstruct the story.
 
 Example scenario:
 
-```
-Employee reports suspicious activity
-Files are missing from a server
-Unusual network traffic detected
-```
+Employee reports suspicious activity.
+
+- Files are missing from a server
+- Unusual network traffic detected
 
 Investigators must determine:
 
-```
-what happened
-which files were accessed
-how the attacker entered the system
-```
+- what happened
+- which files were accessed
+- how the attacker entered the system
 
 Digital forensics provides the answers.
 
@@ -85,13 +76,11 @@ Modern systems generate many traces.
 
 Examples:
 
-```
-filesystems
-system logs
-browser history
-application data
-network logs
-```
+- filesystems
+- system logs
+- browser history
+- application data
+- network logs
 
 These traces become forensic artifacts.
 
@@ -103,12 +92,10 @@ Every action on a computer leaves traces.
 
 Example actions:
 
-```
-opening a file
-downloading a program
-connecting a USB device
-logging into a system
-```
+- opening a file
+- downloading a program
+- connecting a USB device
+- logging into a system
 
 These actions create artifacts investigators can analyze.
 
@@ -116,15 +103,13 @@ These actions create artifacts investigators can analyze.
 
 ## Example Digital Trail
 
-```
-User downloads file
-      ↓
-File saved to disk
-      ↓
-File executed
-      ↓
-System logs record activity
-```
+User downloads file  
+↓  
+File saved to disk  
+↓  
+File executed  
+↓  
+System logs record activity  
 
 Each step creates forensic evidence.
 
@@ -136,12 +121,10 @@ Digital forensics is used in many situations.
 
 Examples:
 
-```
-malware investigations
-data breaches
-insider threats
-fraud investigations
-```
+- malware investigations
+- data breaches
+- insider threats
+- fraud investigations
 
 Organizations rely on forensic analysis to understand incidents.
 
@@ -151,21 +134,17 @@ Organizations rely on forensic analysis to understand incidents.
 
 Two closely related fields:
 
-Incident Response
+### Incident Response
 
-```
-detect and stop attacks
-contain threats
-restore systems
-```
+- detect and stop attacks
+- contain threats
+- restore systems
 
-Digital Forensics
+### Digital Forensics
 
-```
-analyze evidence
-reconstruct events
-support investigations
-```
+- analyze evidence
+- reconstruct events
+- support investigations
 
 Both disciplines often work together.
 
@@ -175,12 +154,10 @@ Both disciplines often work together.
 
 Digital forensics helps security professionals:
 
-```
-understand attacker behavior
-investigate incidents
-recover evidence
-improve security defenses
-```
+- understand attacker behavior
+- investigate incidents
+- recover evidence
+- improve security defenses
 
 It turns technical traces into investigative insight.
 
@@ -190,12 +167,10 @@ It turns technical traces into investigative insight.
 
 Digital forensics combines several skills:
 
-```
-technical knowledge
-analytical thinking
-attention to detail
-investigation methodology
-```
+- technical knowledge
+- analytical thinking
+- attention to detail
+- investigation methodology
 
 It is both technical and investigative work.
 
@@ -205,13 +180,11 @@ It is both technical and investigative work.
 
 In this workshop we will explore:
 
-```
-disk acquisition
-filesystem structures
-forensic artifacts
-file recovery
-timeline reconstruction
-```
+1. Disk acquisition
+2. Filesystem structures
+3. Forensic artifacts
+4. File recovery
+5. Timeline reconstruction
 
 These concepts form the foundation of forensic analysis.
 
@@ -221,15 +194,13 @@ These concepts form the foundation of forensic analysis.
 
 Digital forensics turns raw data into a narrative.
 
-```
-Artifacts
-     ↓
-Analysis
-     ↓
-Timeline
-     ↓
-Incident reconstruction
-```
+Artifacts  
+↓  
+Analysis  
+↓  
+Timeline  
+↓  
+Incident reconstruction  
 
 The goal is to understand what really happened.
 
@@ -239,8 +210,6 @@ The goal is to understand what really happened.
 
 Next we will examine:
 
-```
-how forensic disk images are created
-```
+**How forensic disk images are created.**
 
 Disk acquisition is the first step in any forensic investigation.

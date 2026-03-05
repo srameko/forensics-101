@@ -1,12 +1,27 @@
-# File System Timeline
+---
+layout: section
+subtitle: Reconstructing activity over time
+---
+
+# Timeline Analysis
+
+---
+
+## MACB Timestamps
 
 Important timestamps:
 
-- Created
 - Modified
 - Accessed
-- Metadata changed
+- Changed
+- Birth / Created
 
-Known as:
+---
 
-**MACB timestamps**
+## Timeline Tools
+
+Example:
+
+```bash
+mactime -b bodyfile
+```

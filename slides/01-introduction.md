@@ -1,4 +1,13 @@
-# What is Digital Forensics
+---
+layout: section
+subtitle: Introduction to Digital Forensics
+---
+
+# Introduction
+
+---
+
+## What is Digital Forensics
 
 Digital forensics is the process of:
 
@@ -12,7 +21,7 @@ digital evidence.
 
 ---
 
-# Digital Evidence
+## Digital Evidence
 
 Digital evidence must be:
 

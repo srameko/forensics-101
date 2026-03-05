@@ -1,8 +1,15 @@
+---
+layout: section
+subtitle: File Allocation Table structure
+---
+
 # FAT File System
 
-FAT = File Allocation Table.
+---
 
-Structure:
+## FAT Layout
+
+Main components:
 
 - Boot sector
 - FAT tables
@@ -11,9 +18,9 @@ Structure:
 
 ---
 
-# FAT Directory Entry
+## FAT Directory Entry
 
-Directory entries store:
+Directory entries contain:
 
 - filename
 - starting cluster
@@ -22,9 +29,9 @@ Directory entries store:
 
 ---
 
-# FAT Deletion
+## FAT Deletion
 
 When a file is deleted:
 
-- first byte of filename is replaced
-- cluster chain is cleared
+- filename first byte replaced
+- cluster chain cleared

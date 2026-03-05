@@ -1,15 +1,24 @@
-# Recovering Deleted Data
+---
+layout: section
+subtitle: Recovering deleted files
+---
+
+# Recovering Deleted Files
+
+---
+
+## File Deletion
 
 Deleting a file usually does **not erase the data**.
 
 Instead:
 
-- metadata entry is marked deleted
-- clusters become available for reuse
+- metadata is marked deleted
+- clusters become available
 
 ---
 
-## Example
+## Example Recovery
 
 ```bash
 icat disk.dd 128 > recovered.txt

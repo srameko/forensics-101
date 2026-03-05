@@ -1,8 +1,15 @@
+---
+layout: section
+subtitle: Key takeaways
+---
+
 # Summary
+
+---
 
 Digital forensics allows investigators to:
 
-- recover deleted files
 - analyze file systems
+- recover deleted files
 - reconstruct timelines
-- detect hidden data
+- investigate incidents

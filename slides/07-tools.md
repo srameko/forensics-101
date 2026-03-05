@@ -1,4 +1,13 @@
-# Sleuth Kit
+---
+layout: section
+subtitle: Tools used in forensic analysis
+---
+
+# Forensic Tools
+
+---
+
+## Sleuth Kit
 
 Common tools:
 
@@ -17,5 +26,5 @@ Common tools:
 ```bash
 fsstat disk.dd
 fls disk.dd
-icat disk.dd inode > file
+icat disk.dd 128 > file
 ```

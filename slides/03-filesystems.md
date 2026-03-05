@@ -1,8 +1,13 @@
-# File System Forensics
+---
+layout: section
+subtitle: Understanding how data is stored
+---
 
-Goal:
+# File System Basics
 
-Understand how files are stored on disk.
+---
+
+## File Systems
 
 File systems manage:
 
@@ -12,15 +17,9 @@ File systems manage:
 
 ---
 
-# Organizing Data on Disk
+## Metadata
 
-A file system maintains:
-
-- metadata
-- cluster allocation
-- file content
-
-Metadata contains:
+Metadata typically includes:
 
 - filename
 - timestamps

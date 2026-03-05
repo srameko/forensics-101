@@ -1,19 +1,26 @@
+---
+layout: section
+subtitle: NTFS internals and metadata
+---
+
 # NTFS File System
-
-NTFS = New Technology File System.
-
-Key concepts:
-
-- everything is a file
-- metadata stored in MFT
-- journaling file system
 
 ---
 
-# Master File Table (MFT)
+## Master File Table
 
 The MFT contains one record per file.
 
-Record size:
+Typical record size:
 
 1024 bytes.
+
+---
+
+## NTFS Attributes
+
+Examples:
+
+- $STANDARD_INFORMATION
+- $FILE_NAME
+- $DATA

@@ -1,29 +1,51 @@
 ---
 layout: section
-subtitle: Where to find forensic artifacts
+subtitle: Where investigators find evidence
 ---
 
 # Forensic Artifacts
 
 ---
 
-## Why Artifacts Matter
+## What Are Forensic Artifacts?
 
-Artifacts help investigators answer:
+Forensic artifacts are traces of activity left by users, applications, or the operating system.
 
-- What happened
-- When it happened
-- Who did it
-- Which files were involved
+These artifacts help investigators answer questions such as:
 
-Artifacts exist across multiple system components:
+- What happened?
+- When did it happen?
+- Which user was involved?
 
-```
-filesystem
-logs
-registry
-application data
-```
+Artifacts provide valuable evidence about system activity.
+
+---
+
+## Sources of Artifacts
+
+Artifacts can originate from many system components:
+
+- filesystems
+- operating system logs
+- application data
+- browser history
+- system configuration
+
+Investigators correlate multiple artifact sources to reconstruct events.
+
+---
+
+## Artifact Categories
+
+Artifacts typically fall into several categories:
+
+- user activity
+- program execution
+- file access
+- system events
+- network activity
+
+Each category reveals different aspects of system behavior.
 
 ---
 
@@ -31,28 +53,24 @@ application data
 
 ---
 
-## Windows Artifact Locations
+## Common Windows Artifacts
 
-Common forensic artifacts in Windows systems.
+Important forensic artifacts on Windows systems include:
 
-```
-User profile
-Event logs
-Registry
-System directories
-```
+- Prefetch files
+- Event Logs
+- Registry
+- Jump Lists
+- Recycle Bin
+- Browser artifacts
 
-Example base path:
-
-```
-C:\Users\<username>\
-```
+These artifacts help reconstruct user and system activity.
 
 ---
 
-## Windows – Prefetch
+## Windows Prefetch
 
-Prefetch records application execution.
+Prefetch files record program execution.
 
 Location:
 
@@ -60,239 +78,67 @@ Location:
 C:\Windows\Prefetch\
 ```
 
-Example file:
+Prefetch files contain:
 
-```
-CHROME.EXE-3A1B2C4D.pf
-```
-
-Information stored:
-
-```
-program executed
-execution count
-last run time
-loaded files
-```
+- program name
+- execution timestamps
+- number of executions
+- referenced files
 
 ---
 
-## Windows – LNK Files
+## Windows Event Logs
 
-Shortcut files reveal user activity.
+Windows logs many types of system events.
 
 Location:
-
-```
-C:\Users\<user>\AppData\Roaming\Microsoft\Windows\Recent\
-```
-
-Information contained:
-
-```
-original file path
-volume serial number
-timestamps
-```
-
-Useful for identifying opened files.
-
----
-
-## Windows – Jump Lists
-
-Jump lists record recently accessed files.
-
-Location:
-
-```
-C:\Users\<user>\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\
-```
-
-Example artifact:
-
-```
-recent documents
-recent applications
-```
-
----
-
-## Windows – Recycle Bin
-
-Deleted files are stored in:
-
-```
-C:\$Recycle.Bin\
-```
-
-Files are stored as:
-
-```
-$Rxxxxx
-$Ixxxxx
-```
-
-$I files contain metadata including:
-
-```
-original path
-deletion timestamp
-```
-
----
-
-## Windows – Amcache
-
-Tracks executed programs.
-
-Location:
-
-```
-C:\Windows\AppCompat\Programs\Amcache.hve
-```
-
-Contains:
-
-```
-executed binaries
-file hashes
-timestamps
-```
-
----
-
-## Windows – ShimCache
-
-Application compatibility cache.
-
-Registry location:
-
-```
-HKLM\SYSTEM\CurrentControlSet\
-Control\Session Manager\AppCompatCache
-```
-
-Shows:
-
-```
-executed programs
-file paths
-```
-
----
-
-# Windows Event Logs
-
----
-
-## Event Log Location
-
-Windows logs are stored in:
 
 ```
 C:\Windows\System32\winevt\Logs\
 ```
 
-Examples:
+Event logs contain information about:
 
-```
-Security.evtx
-System.evtx
-Application.evtx
-```
-
----
-
-## Important Security Event IDs
-
-Useful security events:
-
-```
-4624  Successful logon
-4625  Failed logon
-4634  Logoff
-4672  Admin privileges assigned
-4688  Process creation
-4698  Scheduled task created
-4720  User account created
-4726  User account deleted
-```
+- authentication activity
+- service execution
+- process creation
+- system events
 
 ---
 
-## Process Creation Events
+## Important Windows Event IDs
 
-Process execution logging:
+Common event IDs used in investigations include:
 
-```
-Event ID 4688
-```
+- **4624** – successful login
+- **4625** – failed login
+- **4688** – process creation
+- **4720** – user account created
+- **7045** – service installed
 
-Shows:
-
-```
-process name
-parent process
-command line
-user account
-```
-
-Important for incident response.
+These events help investigators track system activity.
 
 ---
 
-# Windows Registry Artifacts
+## Windows Registry
 
----
+The Windows Registry stores configuration and activity information.
 
-## User Assist
-
-Tracks executed programs.
-
-Registry key:
+Registry hive location:
 
 ```
-HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist
+C:\Windows\System32\Config\
 ```
 
-Information stored:
+Important hives include:
 
-```
-executed applications
-execution count
-timestamps
-```
+- SAM
+- SYSTEM
+- SOFTWARE
+- SECURITY
+- NTUSER.DAT
 
----
-
-## Run Keys (Persistence)
-
-Startup persistence keys.
-
-```
-HKCU\Software\Microsoft\Windows\CurrentVersion\Run
-HKLM\Software\Microsoft\Windows\CurrentVersion\Run
-```
-
-Programs listed here run at login.
-
----
-
-## USB Device History
-
-Connected USB devices.
-
-```
-HKLM\SYSTEM\CurrentControlSet\Enum\USBSTOR
-```
-
-Contains:
-
-```
-device identifiers
-connection history
-```
+Registry analysis often reveals user activity and system configuration.
 
 ---
 
@@ -300,9 +146,9 @@ connection history
 
 ---
 
-## Linux Log Files
+## Linux System Logs
 
-Common log locations:
+Important log locations:
 
 ```
 /var/log/syslog
@@ -312,65 +158,27 @@ Common log locations:
 
 These logs record:
 
-```
-logins
-system activity
-authentication events
-```
+- system activity
+- authentication attempts
+- service events
 
 ---
 
-## Linux Authentication Logs
+## Linux User Artifacts
 
-Authentication events:
-
-```
-/var/log/auth.log
-```
-
-Example entries:
-
-```
-ssh login attempts
-sudo commands
-failed logins
-```
-
----
-
-## Linux Bash History
-
-User command history:
+User activity may appear in:
 
 ```
 ~/.bash_history
+~/.ssh/
+~/.config/
 ```
 
-Contains executed commands.
+These files may reveal:
 
-Example:
-
-```
-wget malicious.sh
-chmod +x malicious.sh
-./malicious.sh
-```
-
----
-
-## Linux Cron Jobs
-
-Scheduled tasks.
-
-Locations:
-
-```
-/etc/crontab
-/var/spool/cron/
-/etc/cron.*
-```
-
-Attackers often use cron for persistence.
+- executed commands
+- SSH connections
+- application configuration
 
 ---
 
@@ -378,147 +186,58 @@ Attackers often use cron for persistence.
 
 ---
 
+## macOS System Artifacts
+
+macOS systems store artifacts in several locations:
+
+- unified system logs
+- recent items databases
+- application logs
+- user activity databases
+
+These artifacts help reconstruct system usage.
+
+---
+
 ## macOS Unified Logs
 
-Modern macOS systems use unified logging.
+macOS uses a centralized logging system.
 
-Access via:
+Investigators can query logs using:
 
 ```
 log show
 ```
 
-Logs stored in:
+These logs may contain:
 
-```
-/var/db/diagnostics/
-```
-
----
-
-## macOS User Activity
-
-Recent file access:
-
-```
-~/Library/Preferences/com.apple.recentitems.plist
-```
-
-Contains recently opened files.
+- system events
+- application activity
+- security events
 
 ---
 
-## macOS Login History
+## Artifact Correlation
 
-Login records:
+A single artifact rarely tells the whole story.
 
-```
-/var/log/system.log
-```
+Investigators correlate multiple sources:
 
-Also visible using:
+- filesystem metadata
+- system logs
+- registry entries
+- application artifacts
 
-```
-last
-```
-
----
-
-## macOS Application Usage
-
-Application history:
-
-```
-~/Library/Application Support/com.apple.spotlight
-```
-
-Tracks indexed files and usage.
+This correlation helps reconstruct a timeline of events.
 
 ---
 
-# Cross-Platform Artifacts
+## Key Takeaway
 
----
+Forensic artifacts exist across many system components.
 
-## Browser History
+Effective investigations require:
 
-Browsers store user activity.
-
-Example locations:
-
-Chrome
-
-```
-~/.config/google-chrome/Default/History
-```
-
-Windows
-
-```
-C:\Users\<user>\AppData\Local\Google\Chrome\User Data\Default\History
-```
-
-macOS
-
-```
-~/Library/Application Support/Google/Chrome/Default/History
-```
-
----
-
-## USB Artifacts
-
-USB activity can be found in:
-
-Windows registry
-
-```
-SYSTEM\CurrentControlSet\Enum\USBSTOR
-```
-
-Linux logs
-
-```
-/var/log/syslog
-```
-
-macOS logs
-
-```
-system.log
-```
-
----
-
-# Investigation Workflow
-
----
-
-## Practical Artifact Workflow
-
-Typical DFIR artifact workflow:
-
-```
-Check event logs
-Inspect registry artifacts
-Analyze filesystem artifacts
-Review command history
-Build timeline
-```
-
-Artifacts together reconstruct user activity.
-
----
-
-## Key Takeaways
-
-Important artifact categories:
-
-```
-filesystem metadata
-system logs
-registry artifacts
-application history
-```
-
-These artifacts allow investigators to reconstruct system activity.
+- identifying relevant artifacts
+- collecting evidence from multiple sources
+- correlating artifact data

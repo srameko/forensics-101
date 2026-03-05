@@ -3,183 +3,142 @@ layout: section
 subtitle: Understanding how data is stored
 ---
 
-# File System Basics
+# Filesystems
 
 ---
 
-## File Systems
+## Why Filesystems Matter
 
-File systems manage:
+Digital forensics often begins with understanding the filesystem.
 
-- file metadata
-- cluster allocation
-- directory structures
+A filesystem defines:
+
+- how data is stored
+- how files are organized
+- how metadata is recorded
+
+Forensic analysis relies heavily on filesystem structures.
 
 ---
 
-## Metadata
+## What a Filesystem Does
 
-Metadata typically includes:
+A filesystem is responsible for:
 
-- filename
-- timestamps
+- organizing files and directories
+- allocating disk space
+- storing metadata
+- tracking file locations
+
+Without the filesystem, data would simply be raw bytes on disk.
+
+---
+
+## Filesystem Components
+
+Most filesystems contain similar core structures:
+
+- boot sector
+- allocation structures
+- directory entries
+- data area
+
+Understanding these structures is essential for forensic analysis.
+
+---
+
+## Disk Layout Overview
+
+```
++--------------------+
+| Boot Sector        |
++--------------------+
+| Allocation Tables  |
++--------------------+
+| Directory Entries  |
++--------------------+
+| Data Area          |
++--------------------+
+```
+
+Each area serves a specific purpose in storing and locating files.
+
+---
+
+## File Metadata
+
+Filesystems store metadata about files.
+
+Common metadata includes:
+
+- file name
 - file size
-- permissions
+- timestamps
+- file permissions
+- file location
+
+This metadata is often crucial forensic evidence.
 
 ---
 
-## Disk Structure
+## File Timestamps
 
-```mermaid
-flowchart LR
-    A[Physical Disk]
-    B[MBR]
-    C[Partition]
-    D[Filesystem]
-    E[Files]
+Most filesystems track timestamps such as:
 
-    A --> B --> C --> D --> E
-```
+- creation time
+- modification time
+- access time
+- metadata change time
+
+These timestamps are often used to build forensic timelines.
 
 ---
 
-## Disk Layout
+## The MACB Model
+
+In forensic analysis, timestamps are often summarized as:
 
 ```
-+------------------------------------------------+
-|                Physical Disk                   |
-+------------------------------------------------+
-| MBR | Partition 1 | Partition 2 | Partition N |
-+------------------------------------------------+
+M → Modified
+A → Accessed
+C → Metadata Changed
+B → Created (Birth)
 ```
+
+These timestamps help investigators reconstruct activity.
 
 ---
 
-## Master Boot Record (MBR)
-
-The **Master Boot Record** is located in the first sector of the disk.
-
-It contains:
-
-- boot loader code
-- partition table
-- boot signature
-
----
-
-## MBR Structure
-
-```
-+----------------------------+
-| Boot Code (446 bytes)      |
-+----------------------------+
-| Partition Table (64 bytes) |
-+----------------------------+
-| Signature 0x55AA (2 bytes) |
-+----------------------------+
-```
-
----
-
-## Partition Table Entry
-
-Each partition entry is **16 bytes**.
-
-```
-+---------------------+
-| Boot flag           |
-| Starting CHS        |
-| Partition type      |
-| Ending CHS          |
-| Starting LBA        |
-| Size in sectors     |
-+---------------------+
-```
-
----
-
-## Partition Types
-
-Examples:
-
-- `0x07` NTFS / exFAT
-- `0x0B` FAT32
-- `0x83` Linux filesystem
-- `0x82` Linux swap
-
----
-
-## Filesystem Concept
-
-Inside a partition we find a **filesystem**.
-
-Typical responsibilities:
-
-- manage file metadata
-- allocate storage blocks
-- organize directories
-- track free space
-
----
-
-## Filesystem Layout (Generic)
-
-```
-+----------------------+
-| Boot Sector          |
-+----------------------+
-| Filesystem Metadata  |
-+----------------------+
-| Allocation Structures|
-+----------------------+
-| Data Blocks          |
-+----------------------+
-```
-
----
-
-## Blocks / Clusters
-
-Files are not stored as continuous data.
-
-They are split into **blocks (or clusters)**.
-
-```
-File A
-
-+-----+-----+-----+
-| B1  | B2  | B3  |
-+-----+-----+-----+
-```
-
----
-
-## Fragmentation
-
-Files can become fragmented across the disk.
-
-```
-Disk Blocks
-
-+---+---+---+---+---+---+
-|A1 |B1 |A2 |C1 |A3 |D1 |
-+---+---+---+---+---+---+
-```
-
-File A is stored in blocks:
-
-```
-A1 -> A2 -> A3
-```
-
----
-
-## Deleted Files (Concept)
+## File Deletion
 
 When a file is deleted:
 
-- metadata entry is marked as deleted
-- clusters become available
-- data usually remains on disk
+1. The filesystem marks the entry as deleted
+2. Disk space becomes available for reuse
+3. The file data may still remain on disk
 
-This is why **forensic recovery is possible**.
+Because of this behavior, deleted files can often be recovered.
+
+---
+
+## Why This Matters for Forensics
+
+Filesystem analysis allows investigators to:
+
+- recover deleted files
+- analyze metadata
+- reconstruct timelines
+- identify suspicious activity
+
+Understanding filesystem internals is a core skill in digital forensics.
+
+---
+
+## Filesystems We Will Examine
+
+In this workshop we will focus on:
+
+- FAT filesystems
+- NTFS filesystems
+
+These filesystems are common and widely used in forensic investigations.

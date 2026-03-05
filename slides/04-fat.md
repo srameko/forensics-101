@@ -1,40 +1,41 @@
 ---
 layout: section
-subtitle: File Allocation Table internals
+subtitle: File Allocation Table filesystem
 ---
 
 # FAT Filesystem
 
 ---
 
-## FAT Filesystem Overview
+## What is FAT?
 
-FAT = **File Allocation Table**
+FAT stands for **File Allocation Table**.
 
-Historically used in:
+It is one of the earliest widely used filesystems and is still found on:
 
-- MS-DOS
-- Windows 95/98
-- USB flash drives
+- USB drives
 - SD cards
+- embedded systems
+- legacy Windows systems
 
-Variants:
-
-- FAT12
-- FAT16
-- FAT32
+Because of its simple structure, FAT is often used to teach filesystem forensics.
 
 ---
 
-## FAT Disk Layout
+## FAT Filesystem Structure
+
+A FAT disk typically contains four main areas:
+
+- Boot Sector
+- FAT Table
+- Root Directory
+- Data Area
 
 ```
 +----------------------+
 | Boot Sector          |
 +----------------------+
-| FAT Table #1         |
-+----------------------+
-| FAT Table #2         |
+| FAT Table            |
 +----------------------+
 | Root Directory       |
 +----------------------+
@@ -42,61 +43,30 @@ Variants:
 +----------------------+
 ```
 
-Explanation:
-
-- Boot sector contains filesystem metadata
-- FAT tables track cluster allocation
-- Root directory contains file entries
-- Data area stores file content
+Each area has a specific role in managing files.
 
 ---
 
 ## Boot Sector
 
-The FAT boot sector contains important metadata.
+The boot sector contains important filesystem metadata.
 
-Examples:
+Examples include:
 
-- bytes per sector
-- sectors per cluster
+- filesystem type
+- cluster size
 - number of FAT tables
-- root directory size
+- location of filesystem structures
 
-Example fields:
-
-```
-Bytes per sector
-Sectors per cluster
-Reserved sectors
-Number of FATs
-Root directory entries
-```
-
-These values are used to locate filesystem structures.
+Investigators often analyze the boot sector to understand disk layout.
 
 ---
 
-## Data Storage Concept
+## FAT Table Concept
 
-Files are stored in **clusters**.
+The **File Allocation Table** tracks how clusters are linked together.
 
-A cluster is a group of sectors.
-
-Example:
-
-```
-Cluster size = 4 KB
-```
-
-A file may occupy multiple clusters.
-
----
-
-## Cluster Chain
-
-Clusters belonging to a file are linked through the FAT.
-
-Example FAT table:
+Example table:
 
 ```
 Cluster   FAT Entry
@@ -106,17 +76,23 @@ Cluster   FAT Entry
 4         EOF
 ```
 
-Cluster chain:
+This means:
 
 ```
-2 -> 3 -> 4 -> EOF
+Cluster chain
+
+2 → 3 → 4 → EOF
 ```
 
-Meaning the file occupies clusters 2, 3 and 4.
+Each cluster points to the next cluster belonging to the file.
 
 ---
 
-## Visual Cluster Chain
+## File Stored in Clusters
+
+Files are stored across one or more clusters.
+
+Example:
 
 ```
 File A
@@ -126,41 +102,24 @@ File A
 +-------+-------+-------+
 ```
 
-FAT table links these clusters together.
-
----
-
-## FAT Entry Values
-
-FAT entries store the status of clusters.
-
-Examples:
-
-```
-0x0000   free cluster
-0xFFF7   bad cluster
-0xFFFF   end of file
-```
-
-Meaning:
-
-- free clusters can be allocated
-- bad clusters should not be used
-- EOF marks the end of a cluster chain
+The FAT table links these clusters together.
 
 ---
 
 ## Directory Entries
 
-Each file is described by a **directory entry**.
+Files are represented by directory entries.
 
-Directory entry size:
+Typical directory entry fields include:
 
-```
-32 bytes
-```
+- filename
+- extension
+- attributes
+- timestamps
+- starting cluster
+- file size
 
-Structure:
+Example structure:
 
 ```
 +------------+
@@ -174,164 +133,83 @@ Structure:
 +------------+
 ```
 
----
-
-## Directory Entry Attributes
-
-File attributes define file type and properties.
-
-Examples:
-
-```
-0x01 Read Only
-0x02 Hidden
-0x04 System
-0x08 Volume Label
-0x10 Directory
-0x20 Archive
-```
-
-These attributes help identify special files.
+These entries are critical forensic artifacts.
 
 ---
 
-## Long File Names
+## FAT File Deletion
 
-Original FAT used **8.3 filenames**.
+When a file is deleted in FAT:
 
-Example:
+1. The first character of the filename is replaced
+2. The directory entry becomes available
+3. The data clusters remain on disk
 
-```
-FILE.TXT
-```
-
-Modern FAT uses **Long File Name (LFN)** entries.
-
-LFN entries are stored as multiple directory entries.
+Because of this behavior, deleted files can often be recovered.
 
 ---
 
-## Example Directory Entry
+## Deleted File Marker
 
-Example file:
-
-```
-REPORT.TXT
-```
-
-Directory entry stores:
-
-```
-Filename
-Attributes
-Timestamp
-Starting cluster
-File size
-```
-
-The cluster number points to the file data.
-
----
-
-## File Deletion
-
-When a file is deleted, its directory entry is modified.
-
-Example:
-
-```
-TEST.TXT
-```
-
-becomes:
-
-```
-?EST.TXT
-```
-
-Actually the first byte becomes:
+The first byte of the filename is replaced with:
 
 ```
 0xE5
 ```
 
-Meaning:
-
-```
-Directory entry is available for reuse
-```
-
----
-
-## Deleted File Example
-
-```
-Original:
-
-TEST.TXT
-
-Deleted:
-
-E5EST.TXT
-```
-
-The rest of the metadata remains intact.
-
----
-
-## What Happens to the Data?
-
-Deleting a file does **not erase the data**.
-
-Only metadata is changed.
-
-Clusters remain in the data area until overwritten.
-
 Example:
 
+Original filename:
+
 ```
-Cluster chain still contains file data
+TEST.TXT
 ```
 
----
+After deletion:
 
-## Why Forensic Recovery Works
+```
+?EST.TXT
+```
 
-Recovery tools use:
-
-- directory entries
-- cluster numbers
-- FAT tables
-
-to reconstruct deleted files.
-
-Example tools:
-
-- The Sleuth Kit
-- Autopsy
-- EnCase
+The entry is marked as deleted but still recoverable.
 
 ---
 
-## FAT Weaknesses
+## Why Recovery Works
 
-FAT has several limitations:
+Deletion only modifies filesystem metadata.
 
-- fragmentation
-- lack of journaling
-- limited metadata
-- limited file size
+The data clusters often remain untouched until overwritten.
 
-Despite this, FAT is useful for forensic education.
+```
+Directory entry → marked deleted
+Cluster chain → still contains data
+```
+
+Forensic tools can reconstruct files from this information.
 
 ---
 
-## Forensic Relevance
+## FAT Forensic Opportunities
 
-FAT is important because:
+Investigators can often:
 
-- simple structure
-- clear deletion mechanism
-- easy cluster analysis
+- recover deleted files
+- analyze directory entries
+- reconstruct cluster chains
+- identify previously deleted filenames
 
-It is often used in **forensic training datasets**.
+This makes FAT relatively easy to analyze compared to more complex filesystems.
+
+---
+
+## Key Takeaway
+
+FAT deletion does **not erase data**.
+
+It only:
+
+- marks directory entries as deleted
+- frees clusters for reuse
+
+Until clusters are overwritten, the data may still be recoverable.

@@ -1,285 +1,202 @@
 ---
 layout: section
-subtitle: Timeline and supertimeline analysis
+subtitle: Tools used in forensic investigations
 ---
 
-# Timeline Analysis
-
----
-
-## Why Timeline Analysis Matters
-
-A forensic investigation is about reconstructing events.
-
-Questions investigators ask:
-
-```
-What happened?
-When did it happen?
-What happened before and after?
-```
-
-Timeline analysis reconstructs system activity chronologically.
+# Forensic Tools
 
 ---
 
-## Basic Timeline Concept
+## Why Tools Matter
 
-Example system activity:
+Digital forensics relies heavily on specialized tools.
 
-```
-10:01 File created
-10:02 File modified
-10:05 File deleted
-10:06 USB device connected
-10:07 Program executed
-```
+These tools help investigators:
 
-A timeline allows investigators to correlate events.
+- acquire disk images
+- analyze filesystems
+- recover deleted files
+- extract forensic artifacts
+- build timelines
 
----
-
-## Sources of Timestamps
-
-Timestamps originate from many sources.
-
-Examples:
-
-```
-filesystem metadata
-event logs
-registry
-browser history
-application logs
-```
-
-Combining these creates a more accurate timeline.
+Understanding how these tools work is essential for investigations.
 
 ---
 
-## Filesystem Timestamps
+## Tool Categories
 
-Filesystems record timestamps for files.
+Forensic tools generally fall into several categories:
+
+- acquisition tools
+- filesystem analysis tools
+- recovery tools
+- artifact extraction tools
+- timeline analysis tools
+
+Each category supports a different phase of the investigation.
+
+---
+
+## Disk Imaging Tools
+
+Common disk acquisition tools include:
+
+- `dd`
+- `dc3dd`
+- FTK Imager
+- Guymager
+
+These tools create **forensic images of storage media**.
+
+---
+
+## Example: dd
+
+The `dd` command performs a raw sector-by-sector copy.
 
 Example:
 
 ```
-Creation
-Modification
-Access
-Metadata change
+dd if=/dev/sda of=disk.img bs=4M status=progress
 ```
 
-These timestamps form the basis of many timelines.
+This command copies an entire disk into an image file.
 
 ---
 
-## MACB Timestamps
+## Example: dc3dd
 
-MACB stands for:
-
-```
-M  Modified
-A  Accessed
-C  Metadata Changed
-B  Birth (Created)
-```
+`dc3dd` is an enhanced forensic version of `dd`.
 
 Example:
 
 ```
-File created      B
-File modified     M
-Metadata changed  C
-File opened       A
+dc3dd if=/dev/sda of=disk.img hash=sha256 log=acquisition.log
 ```
 
-These events describe file activity.
+Additional features include:
+
+- hash verification
+- improved error handling
+- logging
 
 ---
 
-## MACB Visualization
+## The Sleuth Kit
 
-```
-Time →
-----------------------------------
+The Sleuth Kit (TSK) is a widely used forensic toolkit.
 
-B  File created
-M  File modified
-A  File accessed
-C  Metadata changed
-```
+It allows investigators to:
+
+- analyze filesystems
+- recover deleted files
+- inspect filesystem metadata
+
+TSK works directly with disk images.
+
+---
+
+## Important Sleuth Kit Tools
+
+Common Sleuth Kit commands include:
+
+- `mmls`
+- `fsstat`
+- `fls`
+- `icat`
+- `istat`
+
+Each command provides different forensic insights.
+
+---
+
+## Example: mmls
+
+`mmls` displays partition layouts.
 
 Example:
 
 ```
-10:01 B
-10:02 M
-10:03 A
-10:04 C
+mmls disk.img
 ```
+
+This helps identify partitions inside a disk image.
 
 ---
 
-## Why Timestamps Can Be Misleading
+## Example: fls
 
-Timestamps may change without user interaction.
+`fls` lists files and directories from a filesystem.
 
-Examples:
-
-```
-antivirus scanning
-system indexing
-backup operations
-```
-
-Investigators must interpret timestamps carefully.
-
----
-
-# Timeline with Sleuth Kit
-
----
-
-## Generating a Bodyfile
-
-First step in timeline creation:
+Example:
 
 ```
-fls -r -m / disk.img > bodyfile
+fls -r disk.img
 ```
 
 Options:
 
-```
--r   recursive listing
--m   mount point
-```
-
-The bodyfile contains filesystem metadata.
+- `-r` → recursive listing
+- `-d` → show deleted files
 
 ---
 
-## Bodyfile Format
+## Example: icat
 
-Example entry:
-
-```
-0|/Users/alice/document.txt|129|r/rrwxrwxrwx|0|0|1024|1696000000|1696000500|1696000600|1696000700
-```
-
-Fields include:
-
-```
-file path
-inode
-file size
-MACB timestamps
-```
-
----
-
-## Creating Timeline with mactime
-
-Convert bodyfile into timeline.
-
-```
-mactime -b bodyfile
-```
-
-Example output:
-
-```
-Date        Time        Activity
-----------------------------------------
-2023-10-01  10:01       document.txt created
-2023-10-01  10:02       document.txt modified
-2023-10-01  10:03       document.txt accessed
-```
-
----
-
-## Filtering Timeline
+`icat` extracts file content from a disk image.
 
 Example:
 
 ```
-mactime -b bodyfile 2023-10-01..2023-10-03
+icat disk.img 128 > recovered_file.txt
 ```
 
-This filters events by date range.
-
-Useful during investigations.
+This command extracts the file associated with inode 128.
 
 ---
 
-# Supertimeline
+## File Carving Tools
+
+File carving tools recover files without filesystem metadata.
+
+Common tools include:
+
+- scalpel
+- foremost
+- photorec
+- bulk extractor
+
+These tools scan raw disk data for file signatures.
 
 ---
 
-## What is a Supertimeline?
+## Example: Scalpel
 
-A supertimeline combines many artifact sources.
-
-Instead of only filesystem timestamps.
-
-Example sources:
+Example command:
 
 ```
-filesystem
-event logs
-registry
-browser history
-prefetch
-USB artifacts
+scalpel disk.img -o output_directory
 ```
 
-All events are merged into a single timeline.
+Scalpel scans the disk image and extracts recognized file types.
 
 ---
 
-## Supertimeline Concept
+## Timeline Tools
 
-```
-Filesystem events
-       +
-Registry events
-       +
-Log events
-       +
-Application events
----------------------------
-        Supertimeline
-```
+Timeline tools reconstruct system activity chronologically.
 
-This provides a much richer view of system activity.
+Common tools include:
+
+- log2timeline
+- plaso
+- Timesketch
+
+These tools combine multiple artifact sources.
 
 ---
 
-# log2timeline
-
----
-
-## log2timeline Overview
-
-log2timeline is part of the Plaso framework.
-
-It parses hundreds of artifact types.
-
-Examples:
-
-```
-Windows event logs
-registry
-browser history
-filesystem metadata
-```
-
-The result is a timeline database.
-
----
-
-## Creating a Timeline Database
+## Example: log2timeline
 
 Example command:
 
@@ -287,242 +204,51 @@ Example command:
 log2timeline.py timeline.plaso disk.img
 ```
 
-This extracts artifacts and stores them in a plaso file.
+This extracts artifacts from the disk image into a timeline database.
 
 ---
 
-## Converting Timeline Output
+## Creating a Timeline
 
-Generate human readable output:
+Example workflow:
+
+1. Extract artifacts using log2timeline
+2. Convert timeline data
+3. Analyze activity chronologically
+
+Example command:
 
 ```
 psort.py -o l2tcsv timeline.plaso > timeline.csv
 ```
 
-Example output:
-
-```
-Date        Time        Description
------------------------------------------
-2023-10-01  10:01       File created
-2023-10-01  10:02       File modified
-2023-10-01  10:03       Chrome executed
-2023-10-01  10:05       USB inserted
-```
+This produces a timeline that investigators can analyze.
 
 ---
 
-## Timeline Correlation
+## Typical DFIR Tool Workflow
 
-Example investigation:
+A simplified investigation workflow might look like:
 
-```
-10:01 malware downloaded
-10:02 malware executed
-10:03 persistence created
-10:05 command and control connection
-```
+1. Acquire disk image (`dd`)
+2. Identify partitions (`mmls`)
+3. Analyze filesystem (`fsstat`)
+4. List files (`fls`)
+5. Recover files (`icat`)
+6. Extract artifacts (`log2timeline`)
+7. Build timeline
 
-A timeline reveals the attack chain.
-
----
-
-## Timeline Visualization
-
-Example investigation flow:
-
-```
-User login
-   ↓
-File download
-   ↓
-File execution
-   ↓
-Persistence installed
-   ↓
-Network activity
-```
-
-Timeline analysis connects these events.
+Each step reveals additional evidence.
 
 ---
 
-## Advantages of Supertimelines
+## Key Takeaway
 
-Supertimelines provide:
+Forensic tools help investigators transform raw disk data into useful evidence.
 
-```
-better context
-event correlation
-cross-artifact visibility
-```
+By combining multiple tools, investigators can:
 
-This is critical in incident response investigations.
-
----
-
-# Anti-Forensics: Timestomping
-
----
-
-## What is Timestomping?
-
-Timestomping is a technique used to manipulate file timestamps.
-
-Attackers modify timestamps to hide malicious activity.
-
-Example goal:
-
-```
-Make malicious file appear older than it actually is
-```
-
-This can disrupt timeline analysis.
-
----
-
-## Example Scenario
-
-Original timeline:
-
-```
-10:01 malware.exe created
-10:02 malware.exe executed
-```
-
-After timestomping:
-
-```
-10:01 system file created
-08:13 malware.exe created
-```
-
-The malicious file now appears older than system activity.
-
----
-
-## Typical Timestomping Targets
-
-Attackers modify timestamps such as:
-
-```
-Creation time
-Modification time
-Access time
-Metadata change time
-```
-
-These correspond to:
-
-```
-MACB timestamps
-```
-
----
-
-## Timestomping Tools
-
-Examples of tools used for timestomping.
-
-```
-PowerShell
-SetFile
-touch
-```
-
-Example PowerShell:
-
-```
-(Get-Item malware.exe).CreationTime="01/01/2015"
-```
-
-Example Linux:
-
-```
-touch -t 201501010101 malware
-```
-
----
-
-## Example MACB Manipulation
-
-Normal timeline:
-
-```
-B 10:01 file created
-M 10:02 file modified
-A 10:03 file accessed
-```
-
-After timestomping:
-
-```
-B 2015-01-01
-M 2015-01-01
-A 2015-01-01
-```
-
-File appears historically old.
-
----
-
-## Detecting Timestomping
-
-Investigators look for inconsistencies.
-
-Examples:
-
-```
-MFT timestamps vs FILE_NAME timestamps
-log events vs file timestamps
-prefetch execution vs file creation time
-```
-
-When timestamps do not match → suspicious activity.
-
----
-
-## NTFS Timestamp Comparison
-
-NTFS stores timestamps in multiple locations.
-
-Example:
-
-```
-$STANDARD_INFORMATION
-$FILE_NAME
-```
-
-These timestamps may differ if timestomping occurs.
-
----
-
-## Example Detection Strategy
-
-Example correlation:
-
-```
-File creation timestamp → 2015
-Prefetch execution → 2024
-Event log process creation → 2024
-```
-
-Conclusion:
-
-```
-Timestamp manipulation likely occurred
-```
-
----
-
-## Key Takeaways
-
-Never trust a single timestamp source.
-
-Good forensic practice:
-
-```
-Correlate multiple artifacts
-Validate timeline events
-Look for inconsistencies
-```
+- analyze filesystems
+- recover deleted files
+- extract artifacts
+- reconstruct system activity

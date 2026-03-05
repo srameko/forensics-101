@@ -26,6 +26,8 @@ The goal is to reconstruct **what actually happened on a system**.
 
 <div style="flex:2">
 
+<div>
+
 ```mermaid
 flowchart TD
 A[User Activity]
@@ -37,6 +39,8 @@ A --> B
 B --> C
 C --> D
 ```
+
+</div>
 
 </div>
 
@@ -62,6 +66,8 @@ Investigators try to answer questions such as:
 
 <div style="flex:2">
 
+<div>
+
 ```mermaid
 flowchart TD
 A[Incident]
@@ -71,6 +77,8 @@ D[Conclusion]
 
 A --> B --> C --> D
 ```
+
+</div>
 
 </div>
 
@@ -100,6 +108,8 @@ These traces become **forensic artifacts**.
 
 <div style="flex:2">
 
+<div>
+
 ```mermaid
 flowchart TD
 A[User Action]
@@ -109,6 +119,8 @@ C[Stored Artifact]
 A --> B
 B --> C
 ```
+
+</div>
 
 </div>
 
@@ -182,6 +194,8 @@ Digital forensics helps answer these questions.
 
 <div style="flex:2">
 
+<div>
+
 ```mermaid
 flowchart LR
 A[Incident Detection]
@@ -191,6 +205,8 @@ D[Lessons Learned]
 
 A --> B --> C --> D
 ```
+
+</div>
 
 </div>
 
@@ -227,6 +243,8 @@ These concepts form the foundation of forensic analysis.
 
 ## From Evidence to Story
 
+<div>
+
 ```mermaid
 flowchart LR
 A[Artifacts]
@@ -236,5 +254,7 @@ D[Incident Reconstruction]
 
 A --> B --> C --> D
 ```
+
+</div>
 
 Digital forensics turns raw technical data into a narrative explaining what happened.

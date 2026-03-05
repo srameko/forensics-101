@@ -11,7 +11,7 @@ fonts:
 ---
 
 # Digital Forensics
-## Workshop Preparation
+## Fundamentals
 
 ---
 layout: bio

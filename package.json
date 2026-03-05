@@ -1,10 +1,10 @@
 {
-  "name": "czechitas-ai-data-slides",
+  "name": "czechitas-forensics-101-slides",
   "private": true,
   "scripts": {
     "dev": "slidev",
-    "build": "slidev build --base /czechitas-ai-data/ --out ../dist",
-    "preview": "npm run build && npx serve ../dist -l 4000"
+    "build": "slidev build --base /forensics-101/",
+    "preview": "npm run build && npx serve dist -l 4000"
   },
   "dependencies": {
     "@slidev/cli": "^52.12.0",

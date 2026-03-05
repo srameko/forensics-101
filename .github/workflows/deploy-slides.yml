@@ -2,10 +2,8 @@ name: Deploy Slides
 
 on:
   push:
-    branches: [main]
-    paths:
-      - '**'
-      - '.github/workflows/deploy-slides.yml'
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -18,24 +16,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Install dependencies
-        working-directory: /
-        run: npm ci
+        run: npm install
 
-      - name: Build slides
-        working-directory: /
+      - name: Build Slidev
         run: npm run build
 
-      - name: Upload artifact
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -43,9 +44,11 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

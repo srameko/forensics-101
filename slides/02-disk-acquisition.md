@@ -52,17 +52,28 @@ Dead acquisition is preferred whenever possible.
 
 ## Disk Imaging Concept
 
-```
-Original Disk
-      │
-      ▼
-Forensic Image
-      │
-      ▼
-Forensic Analysis
-```
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 The forensic image contains an **exact sector-by-sector copy** of the disk.
+
+</div>
+
+<div style="flex:2">
+
+```mermaid
+flowchart TD
+A[Original Disk]
+B[Forensic Image]
+C[Forensic Analysis]
+
+A --> B --> C
+```
+
+</div>
+
+</div>
 
 ---
 
@@ -98,13 +109,11 @@ These ensure evidence integrity.
 
 ## Imaging with dd
 
-The `dd` utility performs raw disk copying.
+The `dd` utility performs a raw disk copying.
 
-Example command:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
 
-```
-dd if=/dev/sda of=disk.img bs=4M status=progress
-```
+<div style="flex:3">
 
 Parameters:
 
@@ -112,15 +121,27 @@ Parameters:
 - `of` → output file (image file)
 - `bs` → block size
 
+</div>
+
+<div style="flex:2">
+
+```
+dd if=/dev/sda of=disk.img bs=4M status=progress
+```
+
+</div>
+
+</div>
+
 ---
 
 ## dd with Error Handling
 
-Example forensic imaging command:
+Example forensic imaging command with error handling:
 
-```
-dd if=/dev/sda of=evidence.img bs=4M conv=noerror,sync
-```
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Options:
 
@@ -129,11 +150,27 @@ Options:
 
 Useful for damaged disks.
 
+</div>
+
+<div style="flex:2">
+
+```
+dd if=/dev/sda of=evidence.img bs=4M conv=noerror,sync
+```
+
+</div>
+
+</div>
+
 ---
 
 ## dc3dd
 
 `dc3dd` is an enhanced forensic version of `dd`.
+
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Features:
 
@@ -141,11 +178,17 @@ Features:
 - error handling
 - progress reporting
 
-Example:
+</div>
+
+<div style="flex:2">
 
 ```
 dc3dd if=/dev/sda of=disk.img hash=sha256 log=acquisition.log
 ```
+
+</div>
+
+</div>
 
 ---
 
@@ -169,30 +212,55 @@ These tools provide:
 
 After imaging, investigators verify integrity using hashes.
 
-Example:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+Hash values confirm the image was not modified.
+
+</div>
+
+<div style="flex:2">
 
 ```
 sha256sum disk.img
 ```
 
-Example result:
-
 ```
 b1946ac92492d2347c6235b4d2611184  disk.img
 ```
 
-Hash values confirm the image was not modified.
+</div>
+
+</div>
 
 ---
 
 ## Hash Verification Workflow
 
-1. Hash the original disk
-2. Create the forensic image
-3. Hash the disk image
-4. Compare hashes
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Matching hashes confirm image integrity.
+
+</div>
+
+<div style="flex:2">
+
+```mermaid
+flowchart TD
+A[Hash the original disk]
+B[Create the forensic image]
+C[Hash the disk image]
+D[Compare hashes]
+
+A --> B --> C --> D
+```
+
+</div>
+
+</div>
 
 ---
 

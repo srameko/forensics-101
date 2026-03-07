@@ -49,10 +49,6 @@ Each category reveals different aspects of system behavior.
 
 ---
 
-# Windows Artifacts
-
----
-
 ## Common Windows Artifacts
 
 Important forensic artifacts on Windows systems include:
@@ -142,10 +138,6 @@ Registry analysis often reveals user activity and system configuration.
 
 ---
 
-# Linux Artifacts
-
----
-
 ## Linux System Logs
 
 Important log locations:
@@ -179,10 +171,6 @@ These files may reveal:
 - executed commands
 - SSH connections
 - application configuration
-
----
-
-# macOS Artifacts
 
 ---
 

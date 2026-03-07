@@ -38,6 +38,16 @@ These sources help reconstruct system activity.
 
 ## Example Timeline
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+This sequence helps investigators understand the order of events.
+
+</div>
+
+<div style="flex:2">
+
 ```
 10:01  User downloads file
 10:02  File written to disk
@@ -45,7 +55,9 @@ These sources help reconstruct system activity.
 10:05  Network connection established
 ```
 
-This sequence helps investigators understand the order of events.
+</div>
+
+</div>
 
 ---
 
@@ -66,6 +78,16 @@ These timestamps are commonly summarized as **MACB**.
 
 ## MACB Timeline Model
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+These timestamps provide clues about file activity and help build forensic timelines.
+
+</div>
+
+<div style="flex:2">
+
 ```
 M  Modified
 A  Accessed
@@ -73,7 +95,9 @@ C  Metadata Changed
 B  Created (Birth)
 ```
 
-These timestamps provide clues about file activity.
+</div>
+
+</div>
 
 ---
 
@@ -95,6 +119,16 @@ Combining multiple sources produces a more complete timeline.
 
 A **supertimeline** combines artifacts from many sources into a single timeline.
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+All events are merged into a unified chronological view.
+
+</div>
+
+<div style="flex:2">
+
 ```
 Filesystem events
 System logs
@@ -102,26 +136,37 @@ Registry artifacts
 Application data
 ```
 
-All events are merged into a unified chronological view.
+</div>
+
+</div>
 
 ---
 
 ## Supertimeline Concept
 
-```
-Artifacts
-    │
-    ▼
-Artifact Extraction
-    │
-    ▼
-Timeline Database
-    │
-    ▼
-Chronological Analysis
-```
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 This approach helps investigators correlate system activity.
+
+</div>
+
+<div style="flex:2">
+
+```mermaid
+flowchart TD
+A[Artifacts]
+B[Artifact Extraction]
+C[Timeline Database]
+D[Chronological Analysis]
+
+A --> B --> C --> D
+```
+
+</div>
+
+</div>
 
 ---
 
@@ -140,19 +185,27 @@ Tools like **log2timeline** automate this process.
 
 ## Example Workflow
 
-Example commands:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+This produces a timeline investigators can analyze.
+
+</div>
+
+<div style="flex:2">
 
 ```
 log2timeline.py timeline.plaso disk.img
 ```
 
-Then convert the timeline:
-
 ```
 psort.py -o l2tcsv timeline.plaso > timeline.csv
 ```
 
-This produces a timeline investigators can analyze.
+</div>
+
+</div>
 
 ---
 
@@ -168,12 +221,22 @@ The goal is to make malicious activity appear older or unrelated to the incident
 
 ## Example Timestomping Scenario
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
 Original timeline:
 
 ```
 10:01 malware.exe created
 10:02 malware.exe executed
 ```
+
+The file appears older than it really is.
+
+</div>
+
+<div style="flex:2">
 
 After timestomping:
 
@@ -182,7 +245,9 @@ After timestomping:
 10:02 malware.exe executed
 ```
 
-The file appears older than it really is.
+</div>
+
+</div>
 
 ---
 
@@ -190,17 +255,27 @@ The file appears older than it really is.
 
 Attackers can modify timestamps using tools such as:
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
 - PowerShell
 - touch
 - SetFile (macOS)
 
-Example:
+This command modifies file timestamps.
+
+</div>
+
+<div style="flex:2">
 
 ```
 touch -t 201501010101 malware.exe
 ```
 
-This command modifies file timestamps.
+</div>
+
+</div>
 
 ---
 

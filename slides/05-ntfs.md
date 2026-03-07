@@ -38,7 +38,17 @@ Every file and directory on an NTFS volume is represented by a record in the MFT
 
 The MFT is essentially a database of all files.
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
 Each file has its own **MFT record**.
+
+Even system files and directories are stored as MFT records.
+
+</div>
+
+<div style="flex:2">
 
 ```
 +--------------------+
@@ -51,7 +61,9 @@ Each file has its own **MFT record**.
 +--------------------+
 ```
 
-Even system files and directories are stored as MFT records.
+</div>
+
+</div>
 
 ---
 
@@ -114,9 +126,17 @@ This difference can reveal forensic artifacts.
 
 ## NTFS Timestamps
 
-NTFS tracks multiple timestamps.
+NTFS tracks multiple timestamps, commonly referred to as **MACB**.
 
-These are commonly referred to as **MACB**:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+These timestamps are extremely important for forensic timelines.
+
+</div>
+
+<div style="flex:2">
 
 ```
 M → Modified
@@ -125,7 +145,9 @@ C → Metadata Changed
 B → Created (Birth)
 ```
 
-These timestamps are extremely important for forensic timelines.
+</div>
+
+</div>
 
 ---
 
@@ -133,27 +155,49 @@ These timestamps are extremely important for forensic timelines.
 
 NTFS stores timestamps in multiple locations.
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+Because timestamps exist in multiple places, investigators can detect inconsistencies.
+
+</div>
+
+<div style="flex:2">
+
 ```
 $STANDARD_INFORMATION
 $FILE_NAME
 ```
 
-Because timestamps exist in multiple places, investigators can detect inconsistencies.
+</div>
+
+</div>
 
 ---
 
 ## Detecting Timestamp Manipulation
 
-If an attacker performs **timestomping**, timestamps may differ.
+If an attacker performs **timestomping**, timestamps may differ between attributes.
 
-Example:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+This mismatch may indicate timestamp manipulation.
+
+</div>
+
+<div style="flex:2">
 
 ```
 $STANDARD_INFORMATION → 2015
 $FILE_NAME           → 2024
 ```
 
-This mismatch may indicate timestamp manipulation.
+</div>
+
+</div>
 
 ---
 
@@ -161,21 +205,30 @@ This mismatch may indicate timestamp manipulation.
 
 For larger files, NTFS stores file data outside the MFT.
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
 The `$DATA` attribute contains **data runs** that point to disk clusters.
 
-Example concept:
-
-```
-File
- │
- ▼
-Data Runs
- │
- ▼
-Clusters on disk
-```
-
 These runs map logical file data to physical disk locations.
+
+</div>
+
+<div style="flex:2">
+
+```mermaid
+flowchart TD
+A[File]
+B[Data Runs]
+C[Clusters on disk]
+
+A --> B --> C
+```
+
+</div>
+
+</div>
 
 ---
 
@@ -183,30 +236,50 @@ These runs map logical file data to physical disk locations.
 
 NTFS supports **Alternate Data Streams**.
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
 This allows multiple data streams to exist within a single file.
 
-Example:
+ADS can be abused to hide data and may not appear in normal directory listings.
+
+</div>
+
+<div style="flex:2">
 
 ```
 file.txt
 file.txt:hidden
 ```
 
-ADS can be abused to hide data.
+</div>
+
+</div>
 
 ---
 
 ## Example ADS Usage
 
-Example command:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+The hidden stream will not appear in normal directory listings.
+
+Investigators must specifically check for ADS.
+
+</div>
+
+<div style="flex:2">
 
 ```
 echo secret > file.txt:hidden
 ```
 
-The hidden stream will not appear in normal directory listings.
+</div>
 
-Investigators must specifically check for ADS.
+</div>
 
 ---
 

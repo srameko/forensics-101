@@ -197,7 +197,7 @@ Digital forensics helps answer these questions.
 <div>
 
 ```mermaid
-flowchart LR
+flowchart TD
 A[Incident Detection]
 B[Incident Response]
 C[Forensic Analysis]
@@ -243,10 +243,18 @@ These concepts form the foundation of forensic analysis.
 
 ## From Evidence to Story
 
-<div>
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+Digital forensics turns raw technical data into a narrative explaining what happened.
+
+</div>
+
+<div style="flex:2">
 
 ```mermaid
-flowchart LR
+flowchart TD
 A[Artifacts]
 B[Analysis]
 C[Timeline]
@@ -257,4 +265,4 @@ A --> B --> C --> D
 
 </div>
 
-Digital forensics turns raw technical data into a narrative explaining what happened.
+</div>

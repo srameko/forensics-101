@@ -49,6 +49,21 @@ Understanding these structures is essential for forensic analysis.
 
 ## Disk Layout Overview
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+Each area serves a specific purpose:
+
+- **Boot Sector** – filesystem parameters and boot code
+- **Allocation Tables** – track which clusters are in use
+- **Directory Entries** – file names and metadata
+- **Data Area** – actual file content
+
+</div>
+
+<div style="flex:2">
+
 ```
 +--------------------+
 | Boot Sector        |
@@ -61,7 +76,9 @@ Understanding these structures is essential for forensic analysis.
 +--------------------+
 ```
 
-Each area serves a specific purpose in storing and locating files.
+</div>
+
+</div>
 
 ---
 
@@ -96,7 +113,17 @@ These timestamps are often used to build forensic timelines.
 
 ## The MACB Model
 
-In forensic analysis, timestamps are often summarized as:
+In forensic analysis, timestamps are often summarized as MACB.
+
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+These timestamps help investigators reconstruct activity on a system.
+
+</div>
+
+<div style="flex:2">
 
 ```
 M → Modified
@@ -105,7 +132,9 @@ C → Metadata Changed
 B → Created (Birth)
 ```
 
-These timestamps help investigators reconstruct activity.
+</div>
+
+</div>
 
 ---
 

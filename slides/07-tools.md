@@ -54,13 +54,23 @@ These tools create **forensic images of storage media**.
 
 The `dd` command performs a raw sector-by-sector copy.
 
-Example:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+This command copies an entire disk into an image file.
+
+</div>
+
+<div style="flex:2">
 
 ```
 dd if=/dev/sda of=disk.img bs=4M status=progress
 ```
 
-This command copies an entire disk into an image file.
+</div>
+
+</div>
 
 ---
 
@@ -68,17 +78,27 @@ This command copies an entire disk into an image file.
 
 `dc3dd` is an enhanced forensic version of `dd`.
 
-Example:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
 
-```
-dc3dd if=/dev/sda of=disk.img hash=sha256 log=acquisition.log
-```
+<div style="flex:3">
 
 Additional features include:
 
 - hash verification
 - improved error handling
 - logging
+
+</div>
+
+<div style="flex:2">
+
+```
+dc3dd if=/dev/sda of=disk.img hash=sha256 log=acquisition.log
+```
+
+</div>
+
+</div>
 
 ---
 
@@ -114,13 +134,23 @@ Each command provides different forensic insights.
 
 `mmls` displays partition layouts.
 
-Example:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+This helps identify partitions inside a disk image.
+
+</div>
+
+<div style="flex:2">
 
 ```
 mmls disk.img
 ```
 
-This helps identify partitions inside a disk image.
+</div>
+
+</div>
 
 ---
 
@@ -128,16 +158,26 @@ This helps identify partitions inside a disk image.
 
 `fls` lists files and directories from a filesystem.
 
-Example:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
 
-```
-fls -r disk.img
-```
+<div style="flex:3">
 
 Options:
 
 - `-r` → recursive listing
 - `-d` → show deleted files
+
+</div>
+
+<div style="flex:2">
+
+```
+fls -r disk.img
+```
+
+</div>
+
+</div>
 
 ---
 
@@ -145,13 +185,23 @@ Options:
 
 `icat` extracts file content from a disk image.
 
-Example:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+This command extracts the file associated with inode 128.
+
+</div>
+
+<div style="flex:2">
 
 ```
 icat disk.img 128 > recovered_file.txt
 ```
 
-This command extracts the file associated with inode 128.
+</div>
+
+</div>
 
 ---
 
@@ -172,13 +222,23 @@ These tools scan raw disk data for file signatures.
 
 ## Example: Scalpel
 
-Example command:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+Scalpel scans the disk image and extracts recognized file types.
+
+</div>
+
+<div style="flex:2">
 
 ```
 scalpel disk.img -o output_directory
 ```
 
-Scalpel scans the disk image and extracts recognized file types.
+</div>
+
+</div>
 
 ---
 
@@ -198,17 +258,31 @@ These tools combine multiple artifact sources.
 
 ## Example: log2timeline
 
-Example command:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+This extracts artifacts from the disk image into a timeline database.
+
+</div>
+
+<div style="flex:2">
 
 ```
 log2timeline.py timeline.plaso disk.img
 ```
 
-This extracts artifacts from the disk image into a timeline database.
+</div>
+
+</div>
 
 ---
 
 ## Creating a Timeline
+
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Example workflow:
 
@@ -216,13 +290,19 @@ Example workflow:
 2. Convert timeline data
 3. Analyze activity chronologically
 
-Example command:
+</div>
+
+<div style="flex:2">
 
 ```
 psort.py -o l2tcsv timeline.plaso > timeline.csv
 ```
 
 This produces a timeline that investigators can analyze.
+
+</div>
+
+</div>
 
 ---
 

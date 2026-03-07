@@ -70,35 +70,62 @@ Investigators scan raw disk data to locate recognizable file headers.
 
 ## File Signature Example
 
-Example JPEG signature:
+File signatures identify file types in raw disk data.
+
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+These bytes appear at the beginning of recognized file types and allow carving tools to locate files even without filesystem metadata.
+
+</div>
+
+<div style="flex:2">
+
+JPEG signature:
 
 ```
 FFD8FFE0
 ```
 
-Example PDF signature:
+PDF signature:
 
 ```
 25504446
 ```
 
-These signatures help identify file types in raw disk data.
+</div>
+
+</div>
 
 ---
 
 ## File Carving Concept
 
-```
-Raw Disk Data
-     │
-     ▼
-File Signature Detection
-     │
-     ▼
-Extract File Content
-```
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 The tool scans the disk for known file headers and reconstructs files.
+
+This approach works even when filesystem metadata is missing or damaged.
+
+</div>
+
+<div style="flex:2">
+
+```mermaid
+flowchart TD
+A[Raw Disk Data]
+B[File Signature Detection]
+C[Extract File Content]
+
+A --> B --> C
+```
+
+</div>
+
+</div>
 
 ---
 
@@ -119,25 +146,45 @@ These tools analyze raw disk data and extract recognizable files.
 
 Scalpel uses configuration files to define file signatures.
 
-Example entry:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+This tells Scalpel how to detect JPEG files.
+
+</div>
+
+<div style="flex:2">
 
 ```
 jpg     y       2000000     \xff\xd8\xff\xe0
 ```
 
-This tells Scalpel how to detect JPEG files.
+</div>
+
+</div>
 
 ---
 
 ## Running Scalpel
 
-Example command:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+The tool scans the disk image and extracts files into the output directory.
+
+</div>
+
+<div style="flex:2">
 
 ```
 scalpel disk.img -o output_directory
 ```
 
-The tool scans the disk image and extracts files into the output directory.
+</div>
+
+</div>
 
 ---
 

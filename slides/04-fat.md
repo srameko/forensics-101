@@ -26,10 +26,20 @@ Because of its simple structure, FAT is often used to teach filesystem forensics
 
 A FAT disk typically contains four main areas:
 
-- Boot Sector
-- FAT Table
-- Root Directory
-- Data Area
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+- **Boot Sector** – filesystem parameters
+- **FAT Table** – cluster allocation tracking
+- **Root Directory** – top-level directory entries
+- **Data Area** – actual file content
+
+Each area has a specific role in managing files.
+
+</div>
+
+<div style="flex:2">
 
 ```
 +----------------------+
@@ -43,7 +53,9 @@ A FAT disk typically contains four main areas:
 +----------------------+
 ```
 
-Each area has a specific role in managing files.
+</div>
+
+</div>
 
 ---
 
@@ -66,7 +78,11 @@ Investigators often analyze the boot sector to understand disk layout.
 
 The **File Allocation Table** tracks how clusters are linked together.
 
-Example table:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+Each cluster points to the next cluster belonging to the file.
 
 ```
 Cluster   FAT Entry
@@ -76,15 +92,19 @@ Cluster   FAT Entry
 4         EOF
 ```
 
-This means:
+</div>
+
+<div style="flex:2">
+
+Cluster chain:
 
 ```
-Cluster chain
-
 2 → 3 → 4 → EOF
 ```
 
-Each cluster points to the next cluster belonging to the file.
+</div>
+
+</div>
 
 ---
 
@@ -92,7 +112,17 @@ Each cluster points to the next cluster belonging to the file.
 
 Files are stored across one or more clusters.
 
-Example:
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+The FAT table links these clusters together into a chain.
+
+A file may span many clusters depending on its size.
+
+</div>
+
+<div style="flex:2">
 
 ```
 File A
@@ -102,13 +132,19 @@ File A
 +-------+-------+-------+
 ```
 
-The FAT table links these clusters together.
+</div>
+
+</div>
 
 ---
 
 ## Directory Entries
 
 Files are represented by directory entries.
+
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
 
 Typical directory entry fields include:
 
@@ -119,7 +155,11 @@ Typical directory entry fields include:
 - starting cluster
 - file size
 
-Example structure:
+These entries are critical forensic artifacts.
+
+</div>
+
+<div style="flex:2">
 
 ```
 +------------+
@@ -133,7 +173,9 @@ Example structure:
 +------------+
 ```
 
-These entries are critical forensic artifacts.
+</div>
+
+</div>
 
 ---
 
@@ -151,13 +193,11 @@ Because of this behavior, deleted files can often be recovered.
 
 ## Deleted File Marker
 
-The first byte of the filename is replaced with:
+The first byte of the filename is replaced with `0xE5`.
 
-```
-0xE5
-```
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
 
-Example:
+<div style="flex:3">
 
 Original filename:
 
@@ -165,13 +205,23 @@ Original filename:
 TEST.TXT
 ```
 
+The entry is marked as deleted but still contains recoverable data.
+
+</div>
+
+<div style="flex:2">
+
 After deletion:
 
 ```
 ?EST.TXT
 ```
 
-The entry is marked as deleted but still recoverable.
+First byte → `0xE5`
+
+</div>
+
+</div>
 
 ---
 
@@ -179,14 +229,26 @@ The entry is marked as deleted but still recoverable.
 
 Deletion only modifies filesystem metadata.
 
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
 The data clusters often remain untouched until overwritten.
+
+Forensic tools can reconstruct files from this information.
+
+</div>
+
+<div style="flex:2">
 
 ```
 Directory entry → marked deleted
-Cluster chain → still contains data
+Cluster chain  → still contains data
 ```
 
-Forensic tools can reconstruct files from this information.
+</div>
+
+</div>
 
 ---
 

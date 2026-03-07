@@ -6,24 +6,46 @@ layout: default
 
 In this session we will explore the fundamentals of digital forensics.
 
-<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+<div class="icon-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 1.5rem">
 
-<div style="flex:1">
-
-- Introduction to Digital Forensics
-- Disk Acquisition and Evidence Handling
-- Filesystem Internals (FAT and NTFS)
-- Deleted Files and File Recovery
-
+<div class="icon-card">
+<div class="icon">🔍</div>
+<div class="label">Introduction to Digital Forensics</div>
 </div>
 
-<div style="flex:1">
+<div class="icon-card">
+<div class="icon">💾</div>
+<div class="label">Disk Acquisition and Evidence Handling</div>
+</div>
 
-- Common Forensic Artifacts
-- Forensic Tools and Investigation Workflow
-- Timeline and Supertimeline Analysis
-- Key Takeaways
+<div class="icon-card">
+<div class="icon">📂</div>
+<div class="label">Filesystem Internals (FAT and NTFS)</div>
+</div>
 
+<div class="icon-card">
+<div class="icon">🗑️</div>
+<div class="label">Deleted Files and File Recovery</div>
+</div>
+
+<div class="icon-card">
+<div class="icon">🧩</div>
+<div class="label">Common Forensic Artifacts</div>
+</div>
+
+<div class="icon-card">
+<div class="icon">🛠️</div>
+<div class="label">Forensic Tools and Investigation Workflow</div>
+</div>
+
+<div class="icon-card">
+<div class="icon">⏱️</div>
+<div class="label">Timeline and Supertimeline Analysis</div>
+</div>
+
+<div class="icon-card">
+<div class="icon">📋</div>
+<div class="label">Key Takeaways</div>
 </div>
 
 </div>

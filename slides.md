@@ -68,6 +68,10 @@ src: ./slides/08-timeline.md
 ---
 
 ---
+src: ./slides/11-memory.md
+---
+
+---
 src: ./slides/09-summary.md
 ---
 

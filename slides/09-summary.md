@@ -15,6 +15,7 @@ During this introduction to digital forensics we explored:
 - forensic artifacts
 - file recovery
 - timeline analysis
+- memory forensics
 - forensic tools
 
 These concepts form the foundation of forensic investigations.
@@ -97,6 +98,7 @@ Important forensic tools include:
 - The Sleuth Kit
 - `scalpel`
 - `log2timeline`
+- Volatility 3
 
 Each tool helps extract different types of forensic evidence.
 
@@ -114,6 +116,22 @@ Typical timeline sources include:
 - application data
 
 This helps investigators understand system activity.
+
+---
+
+## Memory Forensics
+
+RAM contains volatile evidence that is lost on shutdown.
+
+Key memory forensics concepts:
+
+- acquire memory before shutting down the system
+- Volatility 3 for memory analysis
+- process analysis (`pslist`, `pstree`, `cmdline`)
+- network connections (`netscan`)
+- malware detection (`malfind`)
+
+Memory forensics reveals evidence invisible on disk.
 
 ---
 
@@ -135,13 +153,14 @@ Investigators must validate evidence using multiple artifact sources.
 
 A simplified forensic investigation workflow:
 
-1. Acquire disk image
-2. Identify partitions
-3. Analyze filesystem
-4. Extract artifacts
-5. Recover files
-6. Build timeline
-7. Reconstruct the incident
+1. Acquire memory image
+2. Acquire disk image
+3. Identify partitions
+4. Analyze filesystem
+5. Extract artifacts
+6. Recover files
+7. Build timeline
+8. Reconstruct the incident
 
 This structured process helps investigators understand what happened.
 

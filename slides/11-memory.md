@@ -96,6 +96,14 @@ Common acquisition tools:
 
 The result is a raw memory dump file (`.raw`, `.mem`, `.dmp`).
 
+**Virtual machines** are a special case — RAM is already stored as a file on disk:
+
+- VMware → `.vmem`
+- VirtualBox → `.sav`
+- Hyper-V → `.bin`
+
+For VMs, simply copy the memory file — no acquisition tool needed.
+
 </div>
 
 <div style="flex:2">
@@ -330,7 +338,7 @@ Typical memory analysis steps:
 
 <div style="flex:2">
 
-```mermaid
+```mermaid {scale: 0.8}
 flowchart TD
 A[Acquire Memory]
 B[Process Analysis]

@@ -98,5 +98,3 @@ layout: center
 # Zpětná vazba
 
 Budeme rádi za vaši zpětnou vazbu!
-
----

@@ -96,6 +96,7 @@ Important forensic tools include:
 
 - `dd`
 - The Sleuth Kit
+- Autopsy
 - `scalpel`
 - `log2timeline`
 - Volatility 3

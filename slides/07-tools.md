@@ -242,6 +242,79 @@ scalpel disk.img -o output_directory
 
 ---
 
+## Autopsy
+
+**Autopsy** is an open-source GUI forensic workbench built on top of The Sleuth Kit.
+
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:3">
+
+Autopsy provides a complete investigation environment:
+
+- disk image analysis
+- deleted file recovery
+- keyword search
+- timeline analysis
+- artifact extraction (browser history, registry, email)
+- built-in reporting
+
+It is one of the most widely used tools in digital forensics and is free to use.
+
+</div>
+
+<div style="flex:2">
+
+```mermaid
+flowchart TD
+A[Disk Image]
+B[Autopsy]
+C[Filesystem Analysis]
+D[Artifact Extraction]
+E[Timeline]
+F[Report]
+
+A --> B --> C --> D --> E --> F
+```
+
+</div>
+
+</div>
+
+---
+
+## Autopsy vs Command-Line Tools
+
+<div style="display:flex;gap:2rem;align-items:flex-start;margin-top:1rem">
+
+<div style="flex:1">
+
+### Autopsy (GUI)
+
+- beginner friendly
+- visual file browser
+- automated modules
+- integrated reporting
+- all-in-one workflow
+
+</div>
+
+<div style="flex:1">
+
+### Sleuth Kit (CLI)
+
+- full control
+- scriptable
+- faster for specific tasks
+- better for automation
+- requires more experience
+
+</div>
+
+</div>
+
+---
+
 ## Timeline Tools
 
 Timeline tools reconstruct system activity chronologically.

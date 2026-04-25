@@ -263,7 +263,7 @@ It is one of the most widely used tools in digital forensics and is free to use.
 
 </div>
 
-<div style="flex:2">
+<div style="flex:2; max-height:60vh; overflow:auto; padding-right:0.5rem">
 
 ```mermaid
 flowchart TD

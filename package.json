@@ -4,10 +4,14 @@
   "scripts": {
     "dev": "slidev",
     "build": "slidev build --base /forensics-101/ --out dist",
-    "preview": "npm run build && npx serve dist -l 4000"
+    "preview": "npm run build && npx serve dist -l 4000",
+    "postinstall": "node ./scripts/fetch-theme-assets.js"
   },
   "dependencies": {
     "@slidev/cli": "^52.12.0",
     "@slidev/theme-default": "^0.25.0"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.50.0"
   }
 }

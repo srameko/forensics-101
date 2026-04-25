@@ -36,6 +36,9 @@ jobs:
       - name: Build Slidev
         run: npm run build
 
+      - name: Export PDF
+        run: npx slidev export --output dist/forensics-101.pdf
+
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:

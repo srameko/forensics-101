@@ -21,6 +21,10 @@ The latest version of the presentation is available online:
 
 https://srameko.github.io/forensics-101/
 
+## Download PDF
+
+[forensics-101.pdf](https://srameko.github.io/forensics-101/forensics-101.pdf)
+
 ---
 
 ## Credits

@@ -37,7 +37,7 @@ jobs:
         run: npm run build
 
       - name: Export PDF
-        run: npx slidev export --output dist/forensics-101.pdf
+        run: npx slidev export --timeout 60000 --output dist/forensics-101.pdf
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3

@@ -265,7 +265,7 @@ It is one of the most widely used tools in digital forensics and is free to use.
 
 <div style="flex:2">
 
-```mermaid {scale: 0.65}
+```mermaid {scale: 0.5}
 flowchart TD
 A[Disk Image]
 B[Autopsy]

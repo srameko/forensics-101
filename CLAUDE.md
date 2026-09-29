@@ -253,7 +253,7 @@ https://srameko.github.io/<repo-name>/
 
 ## Common issues
 
-- **Deploy fails with ** — a markdown link written as `[text]{url)` instead of `[text](url)` (curly brace instead of parenthesis after the closing bracket). Slidev's markdown-it-attrs plugin parses the `{...}` as a Vue attribute block, and the `/` in the URL breaks the compiler. This fails the *entire deck's* build, not just the broken slide. Check every markdown link in the changed slide(s) for this exact typo.
+- **Deploy fails with `RolldownError: Illegal '/' in tags`** — a markdown link written as `[text]{url)` instead of `[text](url)` (curly brace instead of parenthesis after the closing bracket). Slidev's markdown-it-attrs plugin parses the `{...}` as a Vue attribute block, and the `/` in the URL breaks the compiler. This fails the *entire deck's* build, not just the broken slide. Check every markdown link in the changed slide(s) for this exact typo.
 
 - **Image not showing** — paths in `public/` start with `/image.png` (no `public` prefix). The `bio` and `image-right` layouts handle BASE_URL automatically during build.
 - **bio layout without QR** — simply omit the `::qr::` slot, the layout works fine without it.

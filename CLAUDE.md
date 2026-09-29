@@ -99,8 +99,9 @@ image: /image-name.png
 # Heading
 Text on the left…
 ```
-Column ratio is **3:2** (text : image) — text side is wider.
-Defined in `theme/layouts/image-right.vue` as `grid-template-columns: 3fr 2fr`.
+Column ratio is **2:3** (text : image) — image side is wider, on purpose:
+a bigger image is easier to actually read/recognize on a projector. Defined in
+`theme/layouts/image-right.vue` as `grid-template-columns: 2fr 3fr`.
 
 **Image-only slides** (no body text): always keep `# Heading` for slide annotations in the overview. The Czechitas logo in the bottom-right corner is added automatically by the layout footer.
 ```md

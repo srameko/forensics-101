@@ -8,7 +8,7 @@
     "postinstall": "node ./scripts/fetch-theme-assets.js"
   },
   "dependencies": {
-    "@slidev/cli": "52.20.1",
+    "@slidev/cli": "52.14.0",
     "@slidev/theme-default": "^0.25.0"
   },
   "devDependencies": {

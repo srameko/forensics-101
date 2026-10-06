@@ -246,8 +246,7 @@ https://srameko.github.io/<repo-name>/
 
 ## Download PDF
 
-[<repo-name>.pdf](https://srameko.github.io/<repo-name>/<repo-name>.pdf
-
+[<repo-name>.pdf](https://srameko.github.io/<repo-name>/<repo-name>.pdf)
 ```
 
 ---

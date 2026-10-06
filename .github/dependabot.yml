@@ -5,6 +5,11 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    # Slidev 52.20+ pulls in UnoCSS 66.10+, which breaks `slidev build`
+    # (lightningcss minify: Invalid token in pseudo element). Remove once fixed upstream.
+    ignore:
+      - dependency-name: "@slidev/cli"
+        versions: [">=52.20.0"]
 
   - package-ecosystem: github-actions
     directory: "/"
